@@ -23,7 +23,7 @@ public class SampleInvokeTimesController implements InvokeTimesController {
     private static Map<String,Integer> appCallLimits = new HashMap<String,Integer>();
     private static Map<String,Integer> appCallCounter = new HashMap<String,Integer>();
     static {
-        appCallLimits.put("00002",10);
+        appCallLimits.put("00001",3);
     }
 
 

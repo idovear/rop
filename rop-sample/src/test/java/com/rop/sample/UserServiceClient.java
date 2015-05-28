@@ -35,7 +35,7 @@ import static org.testng.Assert.*;
  */
 public class UserServiceClient {
 
-    public static final String SERVER_URL = "http://localhost:8088/router";
+    public static final String SERVER_URL = "http://localhost:8080/rop-sample";
     public static final String APP_KEY = "00001";
     public static final String APP_SECRET = "abcdeabcdeabcdeabcdeabcde";
     private DefaultRopClient ropClient = new DefaultRopClient(SERVER_URL, APP_KEY, APP_SECRET);
@@ -43,6 +43,10 @@ public class UserServiceClient {
     {
         ropClient.setFormatParamName("messageFormat");
         ropClient.addRopConvertor(new TelephoneConverter());
+    }
+    
+    public static void main(String[] args) {
+        new UserServiceClient().createSession();
     }
 
 
@@ -52,7 +56,7 @@ public class UserServiceClient {
         ropRequest.setUserName("tomson");
         ropRequest.setPassword("123456");
         CompositeResponse response = ropClient.buildClientRequest()
-                                   .get(ropRequest, LogonResponse.class, "user.getSession", "1.0");
+                                   .get(ropRequest, LogonResponse.class, "user.logon", "1.0");
         assertNotNull(response);
         assertTrue(response.isSuccessful());
         assertNotNull(response.getSuccessResponse());
