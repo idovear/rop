@@ -51,12 +51,10 @@ public class UserService extends AbstractUserService {
     private List reservesUserNames = Arrays.asList(new String[] { "toms", "jhon" });
 
     public Object getSession(LogonRequest request) {
-
         // 创建一个会话
         SimpleSession session = new SimpleSession();
         session.setAttribute("userName", request.getUserName());
         request.getRopRequestContext().addSession("mockSessionId1", session);
-
         // 返回响应
         LogonResponse logonResponse = new LogonResponse();
         logonResponse.setSessionId("mockSessionId1");

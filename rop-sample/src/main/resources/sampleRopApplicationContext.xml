@@ -33,8 +33,7 @@
     <bean id="sampleSessionManager" class="com.rop.sample.SampleSessionManager" />
     <bean id="invokeTimesController" class="com.rop.sample.SampleInvokeTimesController"/>
 
-    <bean id="appSecretManager"
-          class="com.rop.sample.SampleAppSecretManager"/>
+    <bean id="appSecretManager" class="com.rop.sample.SampleAppSecretManager"/>
 
     <bean id="serviceAccessController" class="com.rop.sample.SampleServiceAccessController"/>
 
