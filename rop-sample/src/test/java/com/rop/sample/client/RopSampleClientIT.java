@@ -5,9 +5,10 @@
 package com.rop.sample.client;
 
 import com.rop.client.CompositeResponse;
-import com.rop.sample.request.CreateUserRequest;
-import com.rop.sample.request.Telephone;
-import com.rop.sample.response.CreateUserResponse;
+import com.yunhou.openapi.request.CreateUserRequest;
+import com.yunhou.openapi.request.Telephone;
+import com.yunhou.openapi.response.CreateUserResponse;
+
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertNotNull;

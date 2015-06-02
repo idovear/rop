@@ -6,10 +6,11 @@ package com.rop.config;
 
 import com.rop.RopContext;
 import com.rop.impl.AnnotationServletServiceRouter;
-import com.rop.sample.SampleAppSecretManager;
-import com.rop.sample.SampleServiceAccessController;
-import com.rop.sample.request.Telephone;
 import com.rop.security.DefaultSecurityManager;
+import com.yunhou.openapi.request.Telephone;
+import com.yunhou.openapi.security.YunhouAppSecretManager;
+import com.yunhou.openapi.security.YunhouServiceAccessController;
+
 import org.springframework.context.ApplicationContext;
 import org.testng.annotations.Test;
 import org.unitils.UnitilsTestNG;
