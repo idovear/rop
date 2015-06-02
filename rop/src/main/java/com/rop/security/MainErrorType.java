@@ -41,7 +41,9 @@ public enum MainErrorType {
     EXCEED_USER_INVOKE_LIMITED,
     EXCEED_SESSION_INVOKE_LIMITED,
     EXCEED_APP_INVOKE_LIMITED,
-    EXCEED_APP_INVOKE_FREQUENCY_LIMITED;
+    EXCEED_APP_INVOKE_FREQUENCY_LIMITED,
+    EXCEED_IP_INVOKE_LIMITED,
+    SERVICE_INTERCEPTOR;
 
     private static EnumMap<MainErrorType, String> errorCodeMap = new EnumMap<MainErrorType, String>(MainErrorType.class);
 
@@ -73,6 +75,8 @@ public enum MainErrorType {
         errorCodeMap.put(MainErrorType.EXCEED_SESSION_INVOKE_LIMITED, "35");
         errorCodeMap.put(MainErrorType.EXCEED_APP_INVOKE_LIMITED, "36");
         errorCodeMap.put(MainErrorType.EXCEED_APP_INVOKE_FREQUENCY_LIMITED, "37");
+        errorCodeMap.put(MainErrorType.EXCEED_IP_INVOKE_LIMITED, "38");
+        errorCodeMap.put(MainErrorType.SERVICE_INTERCEPTOR, "39");
     }
 
     public String value() {

@@ -9,7 +9,7 @@ package com.rop.session;
 public interface SessionManager {
 
     /**
-     * 注册一个会话
+     * 注册一个会话(授权中心 授权成功后添加)
      *
      * @param session
      */
@@ -24,7 +24,7 @@ public interface SessionManager {
     Session getSession(String sessionId);
 
     /**
-     * 移除这个会话
+     * 移除这个会话（授权中心注销后 删除）
      *
      * @param sessionId
      * @return

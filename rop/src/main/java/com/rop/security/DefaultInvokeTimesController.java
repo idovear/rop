@@ -4,40 +4,46 @@
  */
 package com.rop.security;
 
-import com.rop.session.Session;
+import com.rop.RopRequestContext;
 
 /**
  * <pre>
- *    默认的实现
+ * 默认的实现
  * </pre>
- *
+ * 
  * @author 陈雄华
  * @version 1.0
  */
 public class DefaultInvokeTimesController implements InvokeTimesController {
 
+    public void caculateInvokeTimes(String appKey, RopRequestContext requestContext) {
+        // TODO Auto-generated method stub
 
-    public void caculateInvokeTimes(String appKey, Session session) {
     }
 
-
-    public boolean isUserInvokeLimitExceed(String appKey, Session session) {
+    public boolean isUserInvokeLimitExceed(String appKey, String userId, String method) {
+        // TODO Auto-generated method stub
         return false;
     }
 
-
-    public boolean isSessionInvokeLimitExceed(String appKey, String sessionId) {
+    public boolean isSessionInvokeLimitExceed(String appKey, String sessionId, String method) {
+        // TODO Auto-generated method stub
         return false;
     }
 
-
-    public boolean isAppInvokeLimitExceed(String appKey) {
+    public boolean isAppInvokeLimitExceed(String appKey, String method) {
+        // TODO Auto-generated method stub
         return false;
     }
 
-
-    public boolean isAppInvokeFrequencyExceed(String appKey) {
+    public boolean isAppInvokeFrequencyExceed(String appKey, String method) {
+        // TODO Auto-generated method stub
         return false;
     }
+
+    public boolean isIpInvokeLimitExceed(String ip, String method) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
 }
-

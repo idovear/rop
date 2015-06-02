@@ -30,5 +30,6 @@ public interface ServiceAccessController {
      * @return
      */
     boolean isUserGranted(Session session,String method,String version);
+    
 }
 
