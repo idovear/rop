@@ -4,7 +4,7 @@
 package com.yunhou.openapi.api;
 
 import com.rop.RopRequest;
-import com.rop.annotation.NeedInSessionType;
+import com.rop.annotation.NeedAccessTokenType;
 import com.rop.annotation.ServiceMethod;
 import com.yunhou.openapi.request.LogonRequest;
 
@@ -14,10 +14,10 @@ import com.yunhou.openapi.request.LogonRequest;
  */
 public interface UserServiceInterface {
 
-    @ServiceMethod(method = "user.getSession", version = "1.0", needInSession = NeedInSessionType.NO)
+    @ServiceMethod(method = "user.getSession", version = "1.0", needAccessToken = NeedAccessTokenType.NO)
     Object getSession(LogonRequest request);
 
-    @ServiceMethod(method = "user.logon", version = "1.0", needInSession = NeedInSessionType.NO)
+    @ServiceMethod(method = "user.logon", version = "1.0", needAccessToken = NeedAccessTokenType.NO)
     Object logon(LogonRequest request);
 
 }

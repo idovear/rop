@@ -38,7 +38,7 @@ public class ReservedInterceptor extends AbstractInterceptor {
      * @param ropRequestContext
      */
     public void beforeService(RopRequestContext req) {
-        logger.info("拦截 appkey:" + req.getAppKey() + " ip:" + req.getIp() + " sessionId:" + req.getSessionId());
+        logger.info("拦截 appkey:" + req.getAppKey() + " ip:" + req.getIp() + " token:" + req.getAccess_token());
         // 设置了RopResponse后，后续的服务将不执行，直接返回这个RopResponse响应
         MainError interceptor = interceptorData.isInterceptor(req);
         if (interceptor != null) {

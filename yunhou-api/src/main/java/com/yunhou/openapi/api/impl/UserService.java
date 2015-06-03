@@ -18,7 +18,7 @@ import com.rop.Constants;
 import com.rop.RopRequest;
 import com.rop.annotation.HttpAction;
 import com.rop.annotation.IgnoreSignType;
-import com.rop.annotation.NeedInSessionType;
+import com.rop.annotation.NeedAccessTokenType;
 import com.rop.annotation.ObsoletedType;
 import com.rop.annotation.ServiceMethod;
 import com.rop.annotation.ServiceMethodBean;
@@ -130,7 +130,7 @@ public class UserService implements UserServiceInterface {
     }
 
     // 版本为4.0的user.add:不需要会话
-    @ServiceMethod(method = "user.add", version = "4.0", needInSession = NeedInSessionType.NO)
+    @ServiceMethod(method = "user.add", version = "4.0", needAccessToken = NeedAccessTokenType.NO)
     public Object addUser4(CreateUserRequest request) {
         CreateUserResponse response = new CreateUserResponse();
         // add creaet new user here...
@@ -238,7 +238,7 @@ public class UserService implements UserServiceInterface {
         return new UserListResponse();
     }
 
-    @ServiceMethod(method = "img.get", version = "1.0", httpAction = HttpAction.GET, ignoreSign = IgnoreSignType.YES, needInSession = NeedInSessionType.NO)
+    @ServiceMethod(method = "img.get", version = "1.0", httpAction = HttpAction.GET, ignoreSign = IgnoreSignType.YES, needAccessToken = NeedAccessTokenType.NO)
     public void getImg(RopRequest ropRequest) throws Throwable {
         HttpServletResponse response = (HttpServletResponse) ropRequest.getRopRequestContext().getRawResponseObject();
         response.setCharacterEncoding(Constants.UTF8);
