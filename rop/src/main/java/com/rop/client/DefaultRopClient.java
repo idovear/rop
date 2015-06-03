@@ -4,6 +4,28 @@
  */
 package com.rop.client;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.util.Assert;
+import org.springframework.util.ClassUtils;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.util.ReflectionUtils;
+import org.springframework.web.client.RestTemplate;
+
 import com.rop.CommonConstant;
 import com.rop.MessageFormat;
 import com.rop.RopRequest;
@@ -19,23 +41,12 @@ import com.rop.request.UploadFile;
 import com.rop.request.UploadFileConverter;
 import com.rop.response.ErrorResponse;
 import com.rop.utils.RopUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.core.annotation.AnnotationUtils;
-import org.springframework.util.*;
-import org.springframework.web.client.RestTemplate;
-
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.util.*;
 
 /**
  * <pre>
  * 功能说明：
  * </pre>
- *
+ * 
  * @author 陈雄华
  * @version 1.0
  */
@@ -43,18 +54,18 @@ public class DefaultRopClient implements RopClient {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-    //服务地址
+    // 服务地址
     private String serverUrl;
 
-    //应用键
+    // 应用键
     private String appKey;
 
-    //应用密钥
+    // 应用密钥
     private String appSecret;
 
-    private String sessionId;
+    private String accessToken;
 
-    //报文格式
+    // 报文格式
     private MessageFormat messageFormat = MessageFormat.xml;
 
     private Locale locale = Locale.SIMPLIFIED_CHINESE;
@@ -65,16 +76,14 @@ public class DefaultRopClient implements RopClient {
 
     private RopUnmarshaller jsonUnmarshaller = new JacksonJsonRopUnmarshaller();
 
-    //请求类所有请求参数
+    // 请求类所有请求参数
     private Map<Class<?>, List<Field>> requestAllFields = new HashMap<Class<?>, List<Field>>();
 
-    //请求类所有不需要进行签名的参数
+    // 请求类所有不需要进行签名的参数
     private Map<Class<?>, List<String>> requestIgnoreSignFieldNames = new HashMap<Class<?>, List<String>>();
 
-
-    //键为转换的目标类型
-    private static Map<Class<?>, RopConverter<String, ?>> ropConverterMap =
-            new HashMap<Class<?>, RopConverter<String, ?>>();
+    // 键为转换的目标类型
+    private static Map<Class<?>, RopConverter<String, ?>> ropConverterMap = new HashMap<Class<?>, RopConverter<String, ?>>();
     {
         ropConverterMap.put(UploadFile.class, new UploadFileConverter());
     }
@@ -100,7 +109,6 @@ public class DefaultRopClient implements RopClient {
         this.locale = locale;
     }
 
-
     public MessageFormat getMessageFormat() {
         return messageFormat;
     }
@@ -117,58 +125,48 @@ public class DefaultRopClient implements RopClient {
         this.locale = locale;
     }
 
-
-    public void setSessionId(String sessionId) {
-        this.sessionId = sessionId;
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
     }
-
 
     public RopClient setAppKeyParamName(String paramName) {
         SystemParameterNames.setAppKey(paramName);
         return this;
     }
 
-
-    public RopClient setSessionIdParamName(String paramName) {
-        SystemParameterNames.setSessionId(paramName);
+    public RopClient setAccessTokenParamName(String paramName) {
+        SystemParameterNames.setAccess_token(paramName);
         return this;
     }
-
 
     public RopClient setMethodParamName(String paramName) {
         SystemParameterNames.setMethod(paramName);
         return this;
     }
 
-
     public RopClient setVersionParamName(String paramName) {
         SystemParameterNames.setVersion(paramName);
         return this;
     }
-
 
     public RopClient setFormatParamName(String paramName) {
         SystemParameterNames.setFormat(paramName);
         return this;
     }
 
-
     public RopClient setLocaleParamName(String paramName) {
         SystemParameterNames.setLocale(paramName);
         return this;
     }
-
 
     public RopClient setSignParamName(String paramName) {
         SystemParameterNames.setSign(paramName);
         return this;
     }
 
-
     public void addRopConvertor(RopConverter ropConverter) {
         this.ropConverterMap.put(ropConverter.getTargetClass(), ropConverter);
     }
-
 
     public ClientRequest buildClientRequest() {
         return new DefaultClientRequest(this);
@@ -187,29 +185,26 @@ public class DefaultRopClient implements RopClient {
             paramMap.put(SystemParameterNames.getAppKey(), appKey);
             paramMap.put(SystemParameterNames.getFormat(), messageFormat.name());
             paramMap.put(SystemParameterNames.getLocale(), locale.toString());
-            if (sessionId != null) {
-                paramMap.put(SystemParameterNames.getSessionId(), sessionId);
+            if (accessToken != null) {
+                paramMap.put(SystemParameterNames.getAccess_token(), accessToken);
             }
         }
 
-
         public ClientRequest addParam(String paramName, Object paramValue) {
-            addParam(paramName,paramValue,false);
+            addParam(paramName, paramValue, false);
             return this;
         }
-
 
         public ClientRequest clearParam() {
             paramMap.clear();
             return this;
         }
 
-
         public ClientRequest addParam(String paramName, Object paramValue, boolean ignoreSign) {
             Assert.isTrue(paramName != null && paramName.length() > 0, "参数名不能为空");
             Assert.notNull(paramValue, "参数值不能为null");
 
-            //将参数添加到参数列表中
+            // 将参数添加到参数列表中
             String valueAsStr = paramValue.toString();
             if (ropConverterMap.containsKey(paramValue.getClass())) {
                 RopConverter ropConverter = ropConverterMap.get(paramValue.getClass());
@@ -224,12 +219,10 @@ public class DefaultRopClient implements RopClient {
             return this;
         }
 
-
         public <T> CompositeResponse post(Class<T> ropResponseClass, String methodName, String version) {
             Map<String, String> requestParams = addOtherParamMap(methodName, version);
             return post(ropResponseClass, requestParams);
         }
-
 
         public <T> CompositeResponse post(RopRequest ropRequest, Class<T> ropResponseClass, String methodName, String version) {
             Map<String, String> requestParams = getRequestForm(ropRequest, methodName, version);
@@ -244,12 +237,10 @@ public class DefaultRopClient implements RopClient {
             return toCompositeResponse(responseContent, ropResponseClass);
         }
 
-
         public <T> CompositeResponse get(Class<T> ropResponseClass, String methodName, String version) {
             Map<String, String> requestParams = addOtherParamMap(methodName, version);
             return get(ropResponseClass, requestParams);
         }
-
 
         public <T> CompositeResponse get(RopRequest ropRequest, Class<T> ropResponseClass, String methodName, String version) {
             Map<String, String> requestParams = getRequestForm(ropRequest, methodName, version);
@@ -273,7 +264,7 @@ public class DefaultRopClient implements RopClient {
         }
 
         private <T> CompositeResponse toCompositeResponse(String content, Class<T> ropResponseClass) {
-            if(logger.isDebugEnabled()){
+            if (logger.isDebugEnabled()) {
                 logger.debug(content);
             }
             boolean successful = isSuccessful(content);
@@ -322,20 +313,20 @@ public class DefaultRopClient implements RopClient {
 
             Map<String, String> form = new LinkedHashMap<String, String>(16);
 
-            //系统级参数
+            // 系统级参数
             form.put(SystemParameterNames.getAppKey(), appKey);
             form.put(SystemParameterNames.getMethod(), methodName);
             form.put(SystemParameterNames.getVersion(), version);
             form.put(SystemParameterNames.getFormat(), messageFormat.name());
             form.put(SystemParameterNames.getLocale(), locale.toString());
-            if (sessionId != null) {
-                form.put(SystemParameterNames.getSessionId(), sessionId);
+            if (accessToken != null) {
+                form.put(SystemParameterNames.getAccess_token(), accessToken);
             }
 
-            //业务级参数
+            // 业务级参数
             form.putAll(getParamFields(ropRequest, messageFormat));
 
-            //对请求进行签名
+            // 对请求进行签名
             String signValue = sign(ropRequest.getClass(), appSecret, form);
             form.put("sign", signValue);
             return form;
@@ -351,7 +342,7 @@ public class DefaultRopClient implements RopClient {
 
         /**
          * 对请求参数进行签名
-         *
+         * 
          * @param ropRequestClass
          * @param appSecret
          * @param form
@@ -364,7 +355,7 @@ public class DefaultRopClient implements RopClient {
 
         /**
          * 获取ropRequest对应的参数名列表
-         *
+         * 
          * @param ropRequest
          * @param mf
          * @return
@@ -378,7 +369,7 @@ public class DefaultRopClient implements RopClient {
 
         /**
          * 获取ropRequest对象的对应的参数列表
-         *
+         * 
          * @param ropRequest
          * @param mf
          * @return
@@ -390,11 +381,11 @@ public class DefaultRopClient implements RopClient {
                 RopConverter convertor = getConvertor(field.getType());
                 Object fieldValue = ReflectionUtils.getField(field, ropRequest);
                 if (fieldValue != null) {
-                    if (convertor != null) {//有对应转换器
+                    if (convertor != null) {// 有对应转换器
                         String strParamValue = (String) convertor.unconvert(fieldValue);
                         params.put(field.getName(), strParamValue);
-                    } else if (field.getType().isAnnotationPresent(XmlRootElement.class) ||
-                            field.getType().isAnnotationPresent(XmlType.class)) {
+                    } else if (field.getType().isAnnotationPresent(XmlRootElement.class)
+                            || field.getType().isAnnotationPresent(XmlType.class)) {
                         String message = MessageMarshallerUtils.getMessage(fieldValue, mf);
                         params.put(field.getName(), message);
                     } else {
@@ -447,7 +438,7 @@ public class DefaultRopClient implements RopClient {
 
     /**
      * 获取ropRequest对应的参数名列表
-     *
+     * 
      * @param ropRequest
      * @param mf
      * @return
@@ -461,7 +452,7 @@ public class DefaultRopClient implements RopClient {
 
     /**
      * 获取ropRequest对象的对应的参数列表
-     *
+     * 
      * @param ropRequest
      * @param mf
      * @return
@@ -473,11 +464,11 @@ public class DefaultRopClient implements RopClient {
             RopConverter convertor = getConvertor(field.getType());
             Object fieldValue = ReflectionUtils.getField(field, ropRequest);
             if (fieldValue != null) {
-                if (convertor != null) {//有对应转换器
+                if (convertor != null) {// 有对应转换器
                     String strParamValue = (String) convertor.unconvert(fieldValue);
                     params.put(field.getName(), strParamValue);
-                } else if (field.getType().isAnnotationPresent(XmlRootElement.class) ||
-                        field.getType().isAnnotationPresent(XmlType.class)) {
+                } else if (field.getType().isAnnotationPresent(XmlRootElement.class)
+                        || field.getType().isAnnotationPresent(XmlType.class)) {
                     String message = MessageMarshallerUtils.getMessage(fieldValue, mf);
                     params.put(field.getName(), message);
                 } else {
@@ -488,6 +479,4 @@ public class DefaultRopClient implements RopClient {
         return params;
     }
 
-
 }
-

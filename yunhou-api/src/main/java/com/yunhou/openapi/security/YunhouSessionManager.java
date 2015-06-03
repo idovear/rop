@@ -4,16 +4,17 @@
  */
 package com.yunhou.openapi.security;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.rop.security.SessionConstans;
 import com.rop.session.AbstractSession;
 import com.rop.session.Session;
 import com.rop.session.SessionManager;
+import com.yunhou.openapi.common.model.TokenInfo;
+import com.yunhou.openapi.dao.dataRedis.TokenData;
 
 /**
  * <pre>
@@ -26,22 +27,23 @@ import com.rop.session.SessionManager;
 public class YunhouSessionManager implements SessionManager {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-    private final Map<String, Session> sessionCache = new ConcurrentHashMap<String, Session>(128, 0.75f, 32);
+    @Autowired
+    private TokenData tokenData;
 
     public void addSession(String sessionId, Session session) {
     }
 
-    public Session getSession(String sessionId) {// 判断userId是否存在
-        Session session = new AbstractSession() {
-        };
-        session.setAttribute("roleLevel", "");
-        session.setAttribute("name", "idovear");
-        session.setAttribute(SessionConstans.USER_ID, "idovear");
-
-        // session = sessionCache.get(sessionId);
-        if (session.getAttribute(SessionConstans.USER_ID) == null) {
+    public Session getSession(String appkey, String accessToken) {// 判断userId是否存在
+        TokenInfo tokenInfo = tokenData.getTokenInfo(accessToken);
+        if (tokenInfo == null || !tokenInfo.getAppKey().equals(appkey)) {
             return null;
         }
+        if (StringUtils.isBlank(tokenInfo.getUserId())) {
+            return null;
+        }
+        Session session = new AbstractSession() {
+        };
+        session.setAttribute(SessionConstans.USER_ID, tokenInfo.getUserId());
         return session;
     }
 

@@ -21,6 +21,7 @@ import com.yunhou.oauth.model.AuthorizeErrorCode;
 import com.yunhou.oauth.model.Token;
 import com.yunhou.oauth.redis.OauthRedis;
 import com.yunhou.openapi.common.model.AppSecret;
+import com.yunhou.openapi.common.model.TokenInfo;
 import com.yunhou.openapi.common.model.User;
 import com.yunhou.openapi.common.util.Base64Util;
 import com.yunhou.openapi.common.util.MD5Util;
@@ -203,7 +204,10 @@ public class OauthController extends BaseController {
         token.setExpires_in(7 * 24 * 60 * 60);
         token.setRefresh_token(refresh_token);
         token.setRe_expires_in(30 * 24 * 60 * 60);
-        oauthRedis.putToken(access_token, 7 * 24 * 60 * 60, authorize.getApp_key());
+        TokenInfo tokenInfo = new TokenInfo();
+        tokenInfo.setAppKey(authorize.getApp_key());
+        tokenInfo.setUserId(user.getUserId());
+        oauthRedis.putToken(access_token, 7 * 24 * 60 * 60, tokenInfo);
         return new JSONObject(token).toString();
     }
 

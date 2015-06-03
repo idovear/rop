@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.yunhou.oauth.util.RedisClient;
 import com.yunhou.openapi.common.model.AppSecret;
 import com.yunhou.openapi.common.model.RedisMark;
+import com.yunhou.openapi.common.model.TokenInfo;
 import com.yunhou.openapi.common.model.User;
 import com.yunhou.openapi.common.util.SerializeUtil;
 
@@ -47,7 +48,7 @@ public class OauthRedis {
     }
 
     /* 访问令牌 */
-    public void putToken(String token, int expire, String appkey) {
-        redisClient.put(RedisMark.REDIS_OAUTH_TOKEN, token, appkey, expire);
+    public void putToken(String token, int expire, TokenInfo tokenInfo) {
+        redisClient.put(RedisMark.REDIS_OAUTH_TOKEN, token, SerializeUtil.serialize(tokenInfo), expire);
     }
 }

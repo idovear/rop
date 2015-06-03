@@ -190,7 +190,7 @@ public class DefaultRopContext implements RopContext {
         definition.setTimeout(serviceMethod.timeout());
         definition.setIgnoreSign(IgnoreSignType.isIgnoreSign(serviceMethod.ignoreSign()));
         definition.setVersion(serviceMethod.version());
-        definition.setNeedInSession(NeedInSessionType.isNeedInSession(serviceMethod.needInSession()));
+        definition.setNeedAccessToken(NeedAccessTokenType.isNeedAccessToken(serviceMethod.needAccessToken()));
         definition.setObsoleted(ObsoletedType.isObsoleted(serviceMethod.obsoleted()));
         definition.setHttpAction(serviceMethod.httpAction());
         return definition;
@@ -204,7 +204,7 @@ public class DefaultRopContext implements RopContext {
         definition.setTimeout(serviceMethodBean.timeout());
         definition.setIgnoreSign(IgnoreSignType.isIgnoreSign(serviceMethodBean.ignoreSign()));
         definition.setVersion(serviceMethodBean.version());
-        definition.setNeedInSession(NeedInSessionType.isNeedInSession(serviceMethodBean.needInSession()));
+        definition.setNeedAccessToken(NeedAccessTokenType.isNeedAccessToken(serviceMethodBean.needAccessToken()));
         definition.setHttpAction(serviceMethodBean.httpAction());
         definition.setObsoleted(ObsoletedType.isObsoleted(serviceMethodBean.obsoleted()));
 
@@ -236,8 +236,8 @@ public class DefaultRopContext implements RopContext {
             definition.setVersion(serviceMethod.version());
         }
 
-        if (serviceMethod.needInSession() != NeedInSessionType.DEFAULT) {
-            definition.setNeedInSession(NeedInSessionType.isNeedInSession(serviceMethod.needInSession()));
+        if (serviceMethod.needAccessToken() != NeedAccessTokenType.DEFAULT) {
+            definition.setNeedAccessToken(NeedAccessTokenType.isNeedAccessToken(serviceMethod.needAccessToken()));
         }
 
         if (serviceMethod.obsoleted() != ObsoletedType.DEFAULT) {

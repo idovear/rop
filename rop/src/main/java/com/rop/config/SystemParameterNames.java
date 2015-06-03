@@ -26,7 +26,7 @@ public class SystemParameterNames {
     private static final String LOCALE = "locale";
 
     //会话id默认参数名
-    private static final String SESSION_ID = "sessionId";
+    private static final String ACCESS_TOKEN = "access_token";
 
     //应用键的默认参数名        ;
     private static final String APP_KEY = "appKey";
@@ -42,7 +42,8 @@ public class SystemParameterNames {
     private static String format = FORMAT;
 
     private static String locale = LOCALE;
-    private static String sessionId = SESSION_ID;
+    
+    private static String access_token = ACCESS_TOKEN;
 
     private static String appKey = APP_KEY;
 
@@ -76,12 +77,12 @@ public class SystemParameterNames {
         SystemParameterNames.locale = locale;
     }
 
-    public static String getSessionId() {
-        return sessionId;
+    public static String getAccess_token() {
+        return access_token;
     }
 
-    public static void setSessionId(String sessionId) {
-        SystemParameterNames.sessionId = sessionId;
+    public static void setAccess_token(String access_token) {
+        SystemParameterNames.access_token = access_token;
     }
 
     public static String getAppKey() {

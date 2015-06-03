@@ -74,7 +74,7 @@ public @interface ServiceMethodBean {
      *
      * @return
      */
-    NeedInSessionType needInSession() default NeedInSessionType.DEFAULT;
+    NeedAccessTokenType needAccessToken() default NeedAccessTokenType.DEFAULT;
 
     /**
      * 是否忽略签名检查，默认不忽略

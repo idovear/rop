@@ -42,7 +42,7 @@ public interface RopClient {
      * @param paramName
      * @return
      */
-    RopClient setSessionIdParamName(String paramName);
+    RopClient setAccessTokenParamName(String paramName);
 
     /**
      * 设置method的参数名
@@ -85,11 +85,11 @@ public interface RopClient {
     RopClient setSignParamName(String paramName);
 
     /**
-     * 设置sessionId
+     * 设置token
      *
      * @param sessionId
      */
-    void setSessionId(String sessionId);
+    void setAccessToken(String accessToken);
 
     /**
      * 创建一个新的服务请求

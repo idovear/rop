@@ -4,14 +4,13 @@
  */
 package com.rop;
 
-
 import com.rop.annotation.HttpAction;
 
 /**
  * <pre>
  * 功能说明：
  * </pre>
- *
+ * 
  * @author 陈雄华
  * @version 1.0
  */
@@ -70,7 +69,7 @@ public class ServiceMethodDefinition {
     /**
      * 是否需要进行会话校验
      */
-    private boolean needInSession;
+    private boolean needAccessToken;
 
     /**
      * 是否忽略服务请求签名的校验，默认为false
@@ -138,12 +137,12 @@ public class ServiceMethodDefinition {
         this.version = version;
     }
 
-    public boolean isNeedInSession() {
-        return needInSession;
+    public boolean isNeedAccessToken() {
+        return needAccessToken;
     }
 
-    public void setNeedInSession(boolean needInSession) {
-        this.needInSession = needInSession;
+    public void setNeedAccessToken(boolean needAccessToken) {
+        this.needAccessToken = needAccessToken;
     }
 
     public boolean isIgnoreSign() {
@@ -170,4 +169,3 @@ public class ServiceMethodDefinition {
         this.obsoleted = obsoleted;
     }
 }
-

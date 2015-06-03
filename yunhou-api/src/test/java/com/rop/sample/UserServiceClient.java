@@ -63,7 +63,7 @@ public class UserServiceClient {
         assertNotNull(response.getSuccessResponse());
         assertTrue(response.getSuccessResponse() instanceof LogonResponse);
         assertEquals(((LogonResponse) response.getSuccessResponse()).getSessionId(), "mockSessionId1");
-        ropClient.setSessionId(((LogonResponse) response.getSuccessResponse()).getSessionId());
+        ropClient.setAccessToken(((LogonResponse) response.getSuccessResponse()).getSessionId());
     }
 
     @Test
@@ -87,7 +87,7 @@ public class UserServiceClient {
                 .addParam("password", "123456", true)
                 .get(LogonResponse.class, "user.getSession", "1.0");
         String sessionId = ((LogonResponse) response.getSuccessResponse()).getSessionId();
-        ropClient.setSessionId(sessionId);
+        ropClient.setAccessToken(sessionId);
 
 
         CreateUserRequest createUserRequest = new CreateUserRequest();
@@ -118,7 +118,7 @@ public class UserServiceClient {
                 .addParam("password", "123456", true)
                 .get(LogonResponse.class, "user.getSession", "1.0");
         String sessionId = ((LogonResponse) response.getSuccessResponse()).getSessionId();
-        ropClient.setSessionId(sessionId);
+        ropClient.setAccessToken(sessionId);
 
 
         ClientRequest cr2 = ropClient.buildClientRequest();

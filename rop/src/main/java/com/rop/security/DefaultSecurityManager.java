@@ -80,7 +80,7 @@ public class DefaultSecurityManager implements SecurityManager {
         }
 
         // 2.检查会话
-        mainError = checkSession(context);
+        mainError = checkToken(context);
         if (mainError != null) {
             return mainError;
         }
@@ -360,17 +360,17 @@ public class DefaultSecurityManager implements SecurityManager {
      * @param context
      * @return
      */
-    private MainError checkSession(RopRequestContext context) {
+    private MainError checkToken(RopRequestContext context) {
         // 需要进行session检查
         if (context.getServiceMethodHandler() != null
-                && context.getServiceMethodHandler().getServiceMethodDefinition().isNeedInSession()) {
-            if (context.getSessionId() == null) {
+                && context.getServiceMethodHandler().getServiceMethodDefinition().isNeedAccessToken()) {
+            if (context.getAccess_token() == null) {
                 return MainErrors.getError(MainErrorType.MISSING_SESSION, context.getLocale(), context.getMethod(),
-                        context.getVersion(), SystemParameterNames.getSessionId());
+                        context.getVersion(), SystemParameterNames.getAccess_token());
             } else {
                 if (!isValidSession(context)) {
                     return MainErrors.getError(MainErrorType.INVALID_SESSION, context.getLocale(), context.getMethod(),
-                            context.getVersion(), context.getSessionId());
+                            context.getVersion(), context.getAccess_token());
                 }
             }
         }
@@ -378,9 +378,9 @@ public class DefaultSecurityManager implements SecurityManager {
     }
 
     private boolean isValidSession(RopRequestContext smc) {
-        if (sessionManager.getSession(smc.getSessionId()) == null) {
+        if (sessionManager.getSession(smc.getAppKey(), smc.getAccess_token()) == null) {
             if (logger.isDebugEnabled()) {
-                logger.debug(smc.getSessionId() + "会话不存在，请检查。");
+                logger.debug(smc.getAccess_token() + "会话不存在，请检查。");
             }
             return false;
         } else {

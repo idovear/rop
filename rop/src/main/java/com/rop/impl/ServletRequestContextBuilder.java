@@ -78,7 +78,7 @@ public class ServletRequestContextBuilder implements RequestContextBuilder {
 
         //设置服务的系统级参数
         requestContext.setAppKey(servletRequest.getParameter(SystemParameterNames.getAppKey()));
-        requestContext.setSessionId(servletRequest.getParameter(SystemParameterNames.getSessionId()));
+        requestContext.setAccess_token(servletRequest.getParameter(SystemParameterNames.getAccess_token()));
         requestContext.setMethod(servletRequest.getParameter(SystemParameterNames.getMethod()));
         requestContext.setVersion(servletRequest.getParameter(SystemParameterNames.getVersion()));
         requestContext.setLocale(getLocale(servletRequest));

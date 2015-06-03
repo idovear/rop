@@ -1,7 +1,3 @@
-/**
- * 版权声明： 版权所有 违者必究 2012
- * 日    期：12-6-5
- */
 package com.rop.config;
 
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -12,9 +8,9 @@ import org.w3c.dom.Element;
 
 /**
  * <pre>
- *    指定自定义的系统参数名
+ * 指定自定义的系统参数名
  * </pre>
- *
+ * 
  * @author 陈雄华
  * @version 1.0
  */
@@ -22,7 +18,7 @@ public class SystemParameterNamesBeanDefinitionParser implements BeanDefinitionP
 
     public BeanDefinition parse(Element element, ParserContext parserContext) {
         String appKey = element.getAttribute("appkey-param-name");
-        String sessionId = element.getAttribute("sessionid-param-name");
+        String accessToken = element.getAttribute("accessToken-param-name");
         String method = element.getAttribute("method-param-name");
         String version = element.getAttribute("version-param-name");
         String format = element.getAttribute("format-param-name");
@@ -33,8 +29,8 @@ public class SystemParameterNamesBeanDefinitionParser implements BeanDefinitionP
         if (StringUtils.hasText(appKey)) {
             SystemParameterNames.setAppKey(appKey);
         }
-        if (StringUtils.hasText(sessionId)) {
-            SystemParameterNames.setSessionId(sessionId);
+        if (StringUtils.hasText(accessToken)) {
+            SystemParameterNames.setAccess_token(accessToken);
         }
         if (StringUtils.hasText(method)) {
             SystemParameterNames.setMethod(method);
@@ -48,7 +44,7 @@ public class SystemParameterNamesBeanDefinitionParser implements BeanDefinitionP
         if (StringUtils.hasText(locale)) {
             SystemParameterNames.setLocale(locale);
         }
-        if (StringUtils.hasText(sessionId)) {
+        if (StringUtils.hasText(sign)) {
             SystemParameterNames.setSign(sign);
         }
         if (StringUtils.hasText(jsonp)) {
@@ -57,4 +53,3 @@ public class SystemParameterNamesBeanDefinitionParser implements BeanDefinitionP
         return null;
     }
 }
-
