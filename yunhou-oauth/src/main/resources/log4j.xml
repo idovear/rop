@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+	<appender name="console" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %t %p [%c - %L] - %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="all" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="logs/yunhou-oauth/all.log" />
+		<param name="MaxFileSize" value="4096KB" />
+		<param name="MaxBackupIndex" value="10" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %t %p [%c - %L] - %m%n" />
+		</layout>
+	</appender>
+	
+	<appender name="crawl" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="logs/yunhou-oauth/crwal.log" />
+		<param name="MaxFileSize" value="4096KB" />
+		<param name="MaxBackupIndex" value="10" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %t %p [%c - %L] - %m%n" />
+		</layout>
+	</appender>
+	
+	<appender name="notice" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="logs/yunhou-oauth/notice.log" />
+		<param name="MaxFileSize" value="4096KB" />
+		<param name="MaxBackupIndex" value="10" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %t %p [%c - %L] - %m%n" />
+		</layout>
+	</appender>
+	
+	<appender name="proxy" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="logs/yunhou-oauth/proxy.log" />
+		<param name="MaxFileSize" value="4096KB" />
+		<param name="MaxBackupIndex" value="10" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %t %p [%c - %L] - %m%n" />
+		</layout>
+	</appender>
+	
+	<appender name="proxyserver" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="logs/yunhou-oauth/proxyserver.log" />
+		<param name="MaxFileSize" value="4096KB" />
+		<param name="MaxBackupIndex" value="10" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %t %p [%c - %L] - %m%n" />
+		</layout>
+	</appender>
+
+    <category name="NOTICE" additivity="false">
+        <priority value="INFO" />
+        <appender-ref ref="notice" />
+        <appender-ref ref="console" />
+    </category>
+    
+     <category name="CRWAL" additivity="false">
+        <priority value="INFO" />
+        <appender-ref ref="crawl" />
+        <appender-ref ref="console" />
+    </category>
+    
+     <category name="PROXY" additivity="false">
+        <priority value="INFO" />
+        <appender-ref ref="proxy" />
+        <appender-ref ref="console" />
+    </category>
+    
+     <category name="PROXYSERVER" additivity="false">
+        <priority value="INFO" />
+        <appender-ref ref="proxyserver" />
+        <appender-ref ref="console" />
+    </category>
+
+
+	<root>
+		<priority value="INFO" />
+		<appender-ref ref="console" />
+		<appender-ref ref="all" />
+	</root>
+	
+</log4j:configuration>

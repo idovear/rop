@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="fireye-business-0.0.1-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../fireye-business/target/fireye-business-0.0.1-SNAPSHOT.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

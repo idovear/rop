@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="yunhou-oauth-webapp:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="fireye-webapp.war">
+      <element id="artifact" artifact-name="yunhou-oauth-webapp:war exploded" />
+    </root>
+  </artifact>
+</component>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <title>post请求获取token</title>
+    <script src="resource/js/jquery-1.8.0.js"></script>
+    <script src="resource/js/jquery.encoding.js"></script>
+    <script type="text/javascript">
+    $(function(){
+        $("#logonBtn").click(function(){
+            var data = {
+            		app_key:$("#appKey").val(),
+            		app_secret:$("#secret").val(),
+            		grant_type:$("#grant_type").val(),
+            		redirect_uri:$("#redirect_uri").val(),
+            		code:$("#code").val(),
+            };
+            $.post($("#routerUrl").val(),data,function(data,textStatus){
+                $("#result").html("");
+                $("#result").fadeOut();
+                var date = (new Date());
+                var time = date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
+                $("#result").html("<b>time:</b>"+time+ "<br/>"+
+                                  "<b>data:</b><br/>"+ JSON.stringify(data) +"<br/>"+
+                                  "<b>textStatus:</b><br/>"+textStatus);
+                $("#result").fadeIn();
+            });
+        });
+    })
+    </script>
+    <style type="text/css">
+         input[type=text]{width: 500px;}
+         input[type=button]{width: 100px;}
+    </style>
+</head>
+<body>
+
+<h1>oauth2.0授权步骤：</h1><br/>
+
+1.访问地址：http://localhost:8080/yunhou-oauth/authorize?app_key=00001&response_type=code&redirect_uri=http://www.baidu.com?&wd=oauth2.0
+<br/>
+授权之后获取回调地址里的code
+
+<hr />
+
+ 2. 通过授权码(code)获取访问令牌(token)
+   <hr/>
+   <div>
+      1.router url:<input id="routerUrl" type="text" value="http://localhost:8080/yunhou-oauth/access_token"/> <br/>
+      2.appkey:<input id="appKey" type="text" value="00001"/>   <br/>
+      3.secret:<input id="secret" type="text" value="abcdeabcdeabcdeabcdeabcde"/>    <br/>
+      4.grant_type:<input id="grant_type" type="text" value="authorization_code"/>    <br/>
+      5.redirect_uri:<input id="redirect_uri" type="text" value="http://www.baidu.com/s?&wd=oauth2.0"/>    <br/>
+      6.code:<input id="code" type="text" value=""/>    <br/>
+   </div>
+   <br/>
+   登录测试：
+   <hr/>
+   请求结果： <div id="result" style="background-color: #EFEFEF"></div>
+   <input id="logonBtn" type="button" value="提交"/>
+</body>
+</html>

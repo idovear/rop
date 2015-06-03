@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yunhou.openapi.dao.mysql.OauthApplicationDao">
+
+	<resultMap id="BaseResultMap" type="com.yunhou.openapi.model.oauth.OauthApplication">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="app_key" property="appKey" jdbcType="VARCHAR" />
+		<result column="app_secret" property="appSecret" jdbcType="VARCHAR" />
+		<result column="level" property="level" jdbcType="VARCHAR" />
+		<result column="invoke_count" property="invokeCount" jdbcType="BIGINT" />
+		<result column="redirect_uri" property="redirectUri" jdbcType="VARCHAR" />
+		<result column="username" property="username" jdbcType="VARCHAR" />
+		<result column="iphone" property="iphone" jdbcType="VARCHAR" />
+		<result column="mail" property="mail" jdbcType="VARCHAR" />
+		<result column="company" property="company" jdbcType="VARCHAR" />
+		
+		<result column="record_create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="record_last_modify" property="lastModify" jdbcType="TIMESTAMP" />
+		<result column="record_status" property="recordStatus" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="selectAll" resultMap="BaseResultMap">
+		select app_key,app_secret,level,redirect_uri,invoke_count from openapi_oauth_application where record_status != 'DELETE'
+	</select>
+
+	<insert id="insert" parameterType="com.yunhou.openapi.model.oauth.OauthApplication">
+		insert into
+		openapi_oauth_application(app_key,app_secret,level,invoke_count,redirect_uri,username,iphone,mail,company,record_create_time,record_last_modify)
+		values
+		(
+		#{appKey,jdbcType=VARCHAR},#{appSecret,jdbcType=VARCHAR},#{level,jdbcType=VARCHAR},#{invokeCount,jdbcType=BIGINT},#{redirectUri,jdbcType=VARCHAR},#{username,jdbcType=VARCHAR},#{iphone,jdbcType=VARCHAR},#{mail,jdbcType=VARCHAR},#{company,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP},#{createTime,jdbcType=TIMESTAMP}
+		)
+	</insert>
+</mapper>

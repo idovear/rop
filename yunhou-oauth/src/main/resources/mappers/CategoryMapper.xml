@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yunhou.oauth.dao.CategoryDao">
+
+	<resultMap id="BaseResultMap" type="com.yunhou.oauth.model.Category">
+		<id column="cat_id" property="catId" jdbcType="VARCHAR" />
+		<result column="cat_name" property="catName" jdbcType="VARCHAR" />
+		<result column="url" property="url" jdbcType="VARCHAR" />
+		<result column="parent_id" property="parentCatId" jdbcType="VARCHAR" />
+		<result column="record_create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="record_last_modify" property="lastModify" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<select id="select" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select cat_id,cat_name,parent_id from fireye_category where cat_id=#{catId}
+	</select>
+
+	<select id="selectAll" resultMap="BaseResultMap">
+		select cat_id,cat_name,parent_id from fireye_category order by cat_name
+	</select>
+
+	<insert id="insert" parameterType="com.yunhou.oauth.model.Category">
+		insert into
+		fireye_category(cat_id,cat_name,url,parent_id,record_create_time,record_last_modify)
+		values
+		(
+		#{catId,jdbcType=VARCHAR},#{catName,jdbcType=VARCHAR},#{url,jdbcType=VARCHAR},#{parentCatId,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP},#{createTime,jdbcType=TIMESTAMP}
+		)
+	</insert>
+
+	<insert id="insertList" parameterType="java.util.List">
+		insert into fireye_category(cat_id,cat_name,url,parent_id,record_create_time,record_last_modify)
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.catId},#{item.catName},#{item.url},#{item.parentCatId},#{createTime,jdbcType=TIMESTAMP},#{createTime,jdbcType=TIMESTAMP}))
+		</foreach>
+	</insert>
+
+	<update id="update" parameterType="com.yunhou.oauth.model.Category">
+		update fireye_category
+		<set>
+			<if test="catName != null">
+				cat_name = #{catName,jdbcType=VARCHAR},
+			</if>
+			<if test="parentCatId != null">
+				parent_id = #{parentCatId,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where cat_id = #{catId,jdbcType=VARCHAR}
+	</update>
+</mapper>

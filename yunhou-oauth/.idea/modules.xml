@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../parent/bubugao-pom.iml" filepath="$PROJECT_DIR$/../parent/bubugao-pom.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../fireye-business/fireye-business.iml" filepath="$PROJECT_DIR$/../fireye-business/fireye-business.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fireye-server.iml" filepath="$PROJECT_DIR$/fireye-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/yunhou-oauth-webapp.iml" filepath="$PROJECT_DIR$/yunhou-oauth-webapp.iml" />
+    </modules>
+  </component>
+</project>

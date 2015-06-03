@@ -216,14 +216,12 @@ public class DefaultSecurityManager implements SecurityManager {
         String userId = rrctx.getSession().getAttribute(SessionConstans.USER_ID) + "";
         if (invokeTimesController.isAppInvokeFrequencyExceed(rrctx.getAppKey(), rrctx.getMethod())) {
             return MainErrors.getError(MainErrorType.EXCEED_APP_INVOKE_FREQUENCY_LIMITED, rrctx.getLocale());
-        } else if (invokeTimesController.isAppInvokeLimitExceed(rrctx.getAppKey(), rrctx.getMethod())) {
+        } else if (invokeTimesController.isAppInvokeLimitExceed(rrctx.getAppKey())) {
             return MainErrors.getError(MainErrorType.EXCEED_APP_INVOKE_LIMITED, rrctx.getLocale());
-        } else if (invokeTimesController.isSessionInvokeLimitExceed(rrctx.getAppKey(), rrctx.getSessionId(), rrctx.getMethod())) {
-            return MainErrors.getError(MainErrorType.EXCEED_SESSION_INVOKE_LIMITED, rrctx.getLocale());
-        } else if (invokeTimesController.isUserInvokeLimitExceed(rrctx.getAppKey(), userId, rrctx.getMethod())) {
-            return MainErrors.getError(MainErrorType.EXCEED_USER_INVOKE_LIMITED, rrctx.getLocale());
-        } else if (invokeTimesController.isIpInvokeLimitExceed(rrctx.getIp(), rrctx.getMethod())) {
-            return MainErrors.getError(MainErrorType.EXCEED_IP_INVOKE_LIMITED, rrctx.getLocale());
+        } else if (invokeTimesController.isUserInvokeFrequencyExceed(rrctx.getAppKey(), userId, rrctx.getMethod())) {
+            return MainErrors.getError(MainErrorType.EXCEED_USER_INVOKE_FREQUENCY_LIMITED, rrctx.getLocale());
+        } else if (invokeTimesController.isIpInvokeFrequencyExceed(rrctx.getAppKey(), rrctx.getIp(), rrctx.getMethod())) {
+            return MainErrors.getError(MainErrorType.EXCEED_IP_INVOKE_FREQUENCY_LIMITED, rrctx.getLocale());
         } else {
             invokeTimesController.caculateInvokeTimes(rrctx.getAppKey(), rrctx);
             return null;

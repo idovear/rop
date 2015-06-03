@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="compass:war">
+    <output-path>$USER_HOME$/360buy_rec/code/compass/compass/target</output-path>
+    <root id="archive" name="compass.war">
+      <element id="artifact" artifact-name="compass:war exploded" />
+    </root>
+  </artifact>
+</component>

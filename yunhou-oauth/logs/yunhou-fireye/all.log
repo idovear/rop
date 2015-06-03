@@ -1,0 +1,18 @@
+2015-05-12 09:56:22,435 main INFO [com.yunhou.fireye.util.httpclient.HttpclientUtil - 265] - GET:http://item.yunhou.com/9298000215.html
+2015-05-12 09:58:24,154 main INFO [com.yunhou.fireye.util.httpclient.HttpclientUtil - 265] - GET:http://item.yunhou.com/9298000215.html
+2015-05-12 15:35:57,724 main INFO [com.yunhou.fireye.util.httpclient.HttpclientUtil - 265] - GET:http://item.yunhou.com/9298000215.html
+2015-05-12 15:37:01,230 main INFO [com.yunhou.fireye.util.httpclient.HttpclientUtil - 265] - GET:http://item.yunhou.com/9579000180.html
+2015-05-12 15:37:05,070 main INFO [com.yunhou.fireye.util.httpclient.HttpclientUtil - 265] - GET:http://item.yunhou.com/9579000180.html
+2015-05-12 15:41:06,316 main INFO [com.yunhou.fireye.util.httpclient.HttpclientUtil - 265] - GET:http://item.yunhou.com/9579000180.html
+2015-05-12 15:41:54,312 main INFO [com.yunhou.fireye.util.httpclient.HttpclientUtil - 265] - GET:http://item.yunhou.com/9580000149.html
+2015-05-12 15:42:21,981 main INFO [com.yunhou.fireye.util.httpclient.HttpclientUtil - 265] - GET:http://item.yunhou.com/9580000149.html
+2015-05-12 15:43:10,152 main INFO [com.yunhou.fireye.util.httpclient.HttpclientUtil - 265] - GET:http://item.yunhou.com/9580000149.html
+2015-05-12 15:43:15,875 main INFO [com.yunhou.fireye.util.httpclient.HttpclientUtil - 265] - GET:http://item.yunhou.com/9580000149.html
+2015-05-14 15:17:57,066 main INFO [com.yunhou.fireye.util.httpclient.HttpclientUtil - 262] - GET:http://www.m6go.com/product_13818.html
+2015-05-14 15:18:17,131 main INFO [com.yunhou.fireye.util.httpclient.HttpclientUtil - 266] - HTTP访问失败  Connect to www.m6go.com:80 timed out
+2015-05-14 15:18:31,160 main INFO [com.yunhou.fireye.util.httpclient.HttpclientUtil - 262] - GET:http://www.m6go.com/product_13818.html
+2015-05-14 15:18:51,213 main INFO [com.yunhou.fireye.util.httpclient.HttpclientUtil - 266] - HTTP访问失败  Connect to www.m6go.com:80 timed out
+2015-05-14 15:19:04,377 main INFO [com.yunhou.fireye.util.httpclient.HttpclientUtil - 262] - GET:http://www.m6go.com/product_13818.html
+2015-05-14 15:19:24,429 main INFO [com.yunhou.fireye.util.httpclient.HttpclientUtil - 266] - HTTP访问失败  Connect to www.m6go.com:80 timed out
+2015-05-14 15:21:17,604 main INFO [com.yunhou.fireye.util.httpclient.HttpclientUtil - 262] - GET:http://www.m6go.com/product_13818.html
+2015-05-14 15:21:37,758 main INFO [com.yunhou.fireye.util.httpclient.HttpclientUtil - 266] - HTTP访问失败  Connect to 218.204.143.85:8118 timed out

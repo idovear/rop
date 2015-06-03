@@ -21,17 +21,7 @@ public class DefaultInvokeTimesController implements InvokeTimesController {
 
     }
 
-    public boolean isUserInvokeLimitExceed(String appKey, String userId, String method) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    public boolean isSessionInvokeLimitExceed(String appKey, String sessionId, String method) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    public boolean isAppInvokeLimitExceed(String appKey, String method) {
+    public boolean isAppInvokeLimitExceed(String appKey) {
         // TODO Auto-generated method stub
         return false;
     }
@@ -41,7 +31,12 @@ public class DefaultInvokeTimesController implements InvokeTimesController {
         return false;
     }
 
-    public boolean isIpInvokeLimitExceed(String ip, String method) {
+    public boolean isUserInvokeFrequencyExceed(String appKey, String userId, String method) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    public boolean isIpInvokeFrequencyExceed(String appKey, String ip, String method) {
         // TODO Auto-generated method stub
         return false;
     }
