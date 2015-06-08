@@ -30,7 +30,7 @@ import com.yunhou.openapi.model.security.RatelimtResource;
 @Service
 public class InvokeTimesData {
 
-    private static String keySplit = "-";
+    private static String keySplit = ":";
 
     @Autowired
     private OauthLimitDao limitDao;
@@ -138,4 +138,8 @@ public class InvokeTimesData {
         return buffer.toString();
     }
 
+    /* 更改操作 */
+    
+    
+    
 }

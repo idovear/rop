@@ -7,7 +7,7 @@ import com.yunhou.openapi.model.oauth.OauthApplication;
 /**
  * 
  * 授权应用dao<br/>
- *
+ * 
  * @author 何冰(hebing@bubugao.com)
  * @date: 2015年6月1日 下午2:47:28
  * @version 1.0
@@ -16,6 +16,10 @@ import com.yunhou.openapi.model.oauth.OauthApplication;
 public interface OauthApplicationDao {
 
     public void insert(OauthApplication oauthApplication);
+
+    public OauthApplication select(long id);
     
     public List<OauthApplication> selectAll();
+
+    public void update(OauthApplication oauthApplication);
 }

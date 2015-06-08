@@ -50,7 +50,7 @@ public class MessageMarshallerUtilsTest {
         assertTrue(message.indexOf("key1") > -1);
         assertTrue(message.indexOf("key1Value") > -1);
 
-        message = MessageMarshallerUtils.getMessage(ropRequest, MessageFormat.xml);
+        message = MessageMarshallerUtils.getMessage(ropRequest, MessageFormat.json);
         assertNotNull(message);
         assertTrue(message.indexOf("<") > -1);
         assertTrue(message.indexOf(">") > -1);

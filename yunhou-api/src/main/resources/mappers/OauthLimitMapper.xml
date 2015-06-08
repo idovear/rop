@@ -10,6 +10,7 @@
 		<result column="method" property="method" jdbcType="VARCHAR" />
 		<result column="limit_count" property="limitCount" jdbcType="BIGINT" />
 		<result column="limit_time" property="limitTime" jdbcType="VARCHAR" />
+		<result column="level" property="level" jdbcType="VARCHAR" />
 		<result column="record_create_time" property="createTime" jdbcType="TIMESTAMP" />
 		<result column="record_last_modify" property="lastModify" jdbcType="TIMESTAMP" />
 		<result column="record_status" property="recordStatus" jdbcType="VARCHAR" />
@@ -19,12 +20,41 @@
 		select * from openapi_oauth_limit where record_status != 'DELETE'
 	</select>
 
-	<insert id="insert" parameterType="com.yunhou.openapi.model.oauth.OauthLimit">
+	<insert id="insert" parameterType="com.yunhou.openapi.model.oauth.OauthLimit" keyProperty="id" useGeneratedKeys="true">
 		insert into
-		openapi_oauth_limit(resource,method,limit_count,limit_time,record_create_time,record_last_modify)
+		openapi_oauth_limit(resource,method,limit_count,limit_time,level,record_create_time,record_last_modify)
 		values
 		(
-		#{resource,jdbcType=VARCHAR},#{method,jdbcType=VARCHAR},#{limitCount,jdbcType=VARCHAR},#{limitTime,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP},#{createTime,jdbcType=TIMESTAMP}
+		#{resource,jdbcType=VARCHAR},#{method,jdbcType=VARCHAR},#{limitCount,jdbcType=VARCHAR},#{limitTime,jdbcType=VARCHAR},#{level,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP},#{createTime,jdbcType=TIMESTAMP}
 		)
 	</insert>
+	
+	<select id="select" resultMap="BaseResultMap">
+		select * from openapi_oauth_limit where record_status != 'DELETE' and id=#{0}
+	</select>
+
+	<update id="update" parameterType="com.yunhou.openapi.model.oauth.OauthLimit">
+		update openapi_oauth_application
+		<set>
+			<if test="resource!=null">
+				resource = #{resource,jdbcType=VARCHAR},
+			</if>
+			<if test="method!=''">
+				method = #{method,jdbcType=VARCHAR},
+			</if>
+			<if test="limitCount!=null">
+				limit_count = #{limitCount,jdbcType=VARCHAR},
+			</if>
+			<if test="limitTime!=null">
+				limit_time = #{limitTime,jdbcType=BIGINT},
+			</if>
+			<if test="level!=null">
+				level = #{level,jdbcType=BIGINT},
+			</if>
+			<if test="recordStatus!=null">
+				record_status = #{recordStatus,jdbcType=VARCHAR}
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT} 
+	</update>
 </mapper>

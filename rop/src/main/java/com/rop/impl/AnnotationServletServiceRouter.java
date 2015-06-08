@@ -143,7 +143,6 @@ public class AnnotationServletServiceRouter implements ServiceRouter {
 
         // 使用异常方式调用服务方法
         try {
-
             // 执行线程摆渡
             ThreadFerry threadFerry = buildThreadFerryInstance();
             if (threadFerry != null) {
@@ -497,7 +496,8 @@ public class AnnotationServletServiceRouter implements ServiceRouter {
                     ropRequestContext.setServiceEndTime(System.currentTimeMillis());
 
                     // 完成一次服务请求，计算次数
-//                    invokeTimesController.caculateInvokeTimes(ropRequestContext.getAppKey(), ropRequestContext);
+                    // invokeTimesController.caculateInvokeTimes(ropRequestContext.getAppKey(),
+                    // ropRequestContext);
                     fireAfterDoServiceEvent(ropRequestContext);
                 }
             }

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <title>应用配置</title>
+    <script src="jquery-1.10.2.min.js"></script>
+    <script src="jquery.encoding.js"></script>
+    <script type="text/javascript">
+    var url = "http://localhost:8080/yunhou-api/api";
+    var appkey = '00001';
+    var v = '1.0';
+    var access_token='2.00444e599f9b42edf2f388a07a377c717e';
+    
+    function update(id){
+    	var data = {
+    			appKey:appkey,
+                method:"oauth.app.get.id",
+                access_token:access_token,
+                v:v,
+                id:id
+            };
+    	 $.get(url,data,function(data,textStatus){
+    		 if(data.errorToken ==null){
+    			 $("#id").val(data.id);
+    			 $("#level").val(data.level);
+    			 $("#invokeCount").val(data.invokeCount);
+    			 $("#username").val(data.username);
+    			 $("#iphone").val(data.iphone);
+    			 $("#mail").val(data.mail);
+    			 $("#company").val(data.company);
+    		 }else{
+    			 $("#error").html(JSON.stringify(data));
+    		 }
+    	 });
+    }
+    
+    function submitBtn(){
+    	var id = $("#id").val();
+    	var data = {
+    			appKey:appkey,
+                method:"oauth.app.get.id",
+                access_token:access_token,
+                v:v,
+                level:$("#level").val(),
+                invokeCount:$("#invokeCount").val(),
+                username:$("#username").val(),
+                iphone:$("#iphone").val(),
+                mail:$("#mail").val(),
+                company:$("#company").val(),
+                redirectUri:$("#redirectUri").val()
+            };
+    	
+    	if(id == ''){//add
+    		data.method = "oauth.app.add";
+    		$.post(url,data,function(data,textStatus){
+       		 if(data.errorToken ==null){
+       			 $("#id").val("");
+       			 $("#level").val("");
+       			 $("#invokeCount").val("");
+       			 $("#username").val("");
+       			 $("#iphone").val("");
+       			 $("#mail").val("");
+       			 $("#company").val("");
+       			 $("#redirectUri").val("");
+       			load();
+       		 }else{
+       			 $("#error").html(JSON.stringify(data));
+       		 }
+       	 });
+    	}else{//update
+    		data.method = "oauth.app.update";
+    		$.post(url,data,function(data,textStatus){
+       		 if(data.errorToken ==null){
+       			 $("#id").val("");
+       			 $("#level").val("");
+       			 $("#invokeCount").val("");
+       			 $("#username").val("");
+       			 $("#iphone").val("");
+       			 $("#mail").val("");
+       			 $("#company").val("");
+       			load();
+       		 }else{
+       			 $("#error").html(JSON.stringify(data));
+       		 }
+       	 });
+    	}
+    }
+    
+    
+    function load(){
+    	var data = {
+    			appKey:appkey,
+                method:"oauth.app.get",
+                access_token:access_token,
+                v:v
+            };
+            $.get(url,data,function(data,textStatus){
+            	if(data.errorToken ==null && data.length>0){
+            		var html = "";
+            		for(var i=0;i<data.length;i++){
+            			html+="<tr>";
+            			html+="<td>"+data[i].appKey+"</td>";
+            			html+="<td>"+data[i].level+"</td>";
+            			html+="<td>"+data[i].redirectUri+"</td>";
+            			html+="<td>"+data[i].invokeCount+"</td>";
+            			html+="<td>"+data[i].username+"</td>";
+            			html+="<td>"+data[i].iphone+"</td>";
+            			html+="<td>"+data[i].mail+"</td>";
+            			html+="<td>"+data[i].company+"</td>";
+            			html+='<td><input type="button" value="修改" onclick="update('+data[i].id+')"/></td>';
+            			html+="</tr>"
+            		}
+            		$("#content").html(html);
+            	}else{
+            		$("#error").html(JSON.stringify(data));
+            	}
+            });
+    }
+    
+    $(document).ready(function(){
+    	load();
+    });
+    </script>
+    <style type="text/css">
+   		body{
+   			text-align: center;
+   		}
+         input[type=text]{width: 500px;}
+         input[type=button]{width: 100px;}
+         table{
+         	margin: auto;
+         }
+         td {
+			text-align: center;
+			min-width: 100px;
+		}
+		th {
+			text-align: center;
+		}
+		#error{
+			font-size: 12px;
+			color: red;
+		}
+    </style>
+</head>
+<body>
+	<span id="error"></span>
+	<table>
+		<thead>
+			<th>appkey</th>
+			<th>等级</th>
+			<th>回调地址</th>
+			<th>可访问次数(-1无限)</th>
+			<th>申请人</th>
+			<th>联系电话</th>
+			<th>邮箱</th>
+			<th>公司名称</th>
+			<th>操作</th>
+		</thead>
+		<tbody id="content">
+			
+		</tbody>
+	</table>
+
+<br /><br /><br />
+	<div>
+		<input type="hidden" id="id"  value="" />
+		1.等级              <input id="level" type="text" value="" /><br/>
+		2.可访问次数 <input id="invokeCount" type="text" value="" /><br/>
+		3.申请人        <input id="username" type="text" value="" /><br/>
+		4.联系电话   <input id="iphone" type="text" value="" /><br/>
+		5.邮箱            <input id="mail" type="text" value="" /><br/>
+		6.公司名称  <input id="company" type="text" value="" /><br/>
+		8.回调地址 <input id="redirectUri" type="text" value="" /><br/>
+		 <input type="button" value="提交" onclick="submitBtn();"/>
+	</div>
+</body>
+</html>

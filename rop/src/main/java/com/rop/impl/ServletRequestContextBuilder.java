@@ -141,7 +141,7 @@ public class ServletRequestContextBuilder implements RequestContextBuilder {
     private String getFormat(HttpServletRequest servletRequest) {
         String messageFormat = servletRequest.getParameter(SystemParameterNames.getFormat());
         if (messageFormat == null) {
-            return MessageFormat.xml.name();
+            return MessageFormat.json.name();
         } else {
             return messageFormat;
         }
@@ -183,7 +183,7 @@ public class ServletRequestContextBuilder implements RequestContextBuilder {
         if (MessageFormat.isValidFormat(messageFormat)) {
             return MessageFormat.getFormat(messageFormat);
         } else {
-            return MessageFormat.xml;
+            return MessageFormat.json;
         }
     }
 

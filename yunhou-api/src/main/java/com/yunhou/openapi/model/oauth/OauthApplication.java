@@ -3,6 +3,7 @@ package com.yunhou.openapi.model.oauth;
 import java.util.Date;
 
 import com.yunhou.openapi.model.RecordStatus;
+import com.yunhou.openapi.request.config.OauthApplicationRequest;
 
 /**
  * 
@@ -31,6 +32,25 @@ public class OauthApplication {
     private Date createTime = new Date();// 创建时间
     private Date lastModify = new Date();// 最后修改时间
     private RecordStatus recordStatus;// 字段状态
+    
+    public OauthApplication(){
+        
+    }
+    
+    public OauthApplication(OauthApplicationRequest req){
+        this.id = req.getId();
+        if(req.getLevel()==null){
+            this.level = OauthApplicationLevel.DEV;
+        }else{
+            this.level = req.getLevel();
+        }
+        this.redirectUri = req.getRedirectUri();
+        this.invokeCount = req.getInvokeCount();
+        this.username = req.getUsername();
+        this.iphone = req.getIphone();
+        this.mail = req.getMail();
+        this.company = req.getCompany();
+    }
 
     public long getId() {
         return id;

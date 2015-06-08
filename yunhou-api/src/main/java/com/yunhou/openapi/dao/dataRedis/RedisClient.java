@@ -34,6 +34,17 @@ public class RedisClient {
     public Jedis getJedis() {
         return jedisPool.getResource();
     }
+    
+    public void del(String redisId, String key){
+        Jedis jedis = jedisPool.getResource();
+        try {
+            jedis.del(redisId + ":" + key);
+        } finally {
+            if (jedis != null) {
+                jedisPool.returnResource(jedis);
+            }
+        }
+    }
 
     public void put(String redisId, String key, byte[] obj, int expire) {
         Jedis jedis = jedisPool.getResource();

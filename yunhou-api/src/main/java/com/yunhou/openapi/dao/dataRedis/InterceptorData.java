@@ -32,7 +32,7 @@ import com.yunhou.openapi.model.security.RatelimtResource;
 @Service
 public class InterceptorData {
 
-    private static String keySplit = "-";
+    private static String keySplit = ":";
 
     @Autowired
     private OauthInterceptorDao oauthInterceptorDao;
@@ -94,5 +94,15 @@ public class InterceptorData {
     private String getKey(RatelimtResource ratelimtResource, String resource) {
         return ratelimtResource.name() + keySplit + resource;
     }
-
+    
+    
+    /*更改操作*/
+    public void add(OauthInterceptor inter){
+        redisClient.put(RedisMark.REDIS_INTERCEPTOR, getKey(inter.getType(), inter.getResource()),
+                1 + "", -1);
+    }
+    
+    public void del(OauthInterceptor inter){
+        redisClient.del(RedisMark.REDIS_INTERCEPTOR, getKey(inter.getType(), inter.getResource()));
+    }
 }

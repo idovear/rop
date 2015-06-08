@@ -18,4 +18,32 @@
 		select * from openapi_oauth_interceptor where record_status != 'DELETE'
 	</select>
 
+	<select id="select" resultMap="BaseResultMap">
+		select * from openapi_oauth_interceptor where record_status != 'DELETE' and id=#{0}
+	</select>
+
+	<insert id="insert" parameterType="com.yunhou.openapi.model.oauth.OauthInterceptor"  keyProperty="id" useGeneratedKeys="true">
+		insert into
+		openapi_oauth_interceptor(type,resource,record_create_time,record_last_modify)
+		values
+		(
+		#{type,jdbcType=VARCHAR},#{resource,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP},#{createTime,jdbcType=TIMESTAMP}
+		)
+	</insert>
+	
+	<update id="update" parameterType="com.yunhou.openapi.model.oauth.OauthInterceptor">
+		update openapi_oauth_interceptor
+		<set>
+			<if test="type!=null">
+				type = #{type,jdbcType=VARCHAR},
+			</if>
+			<if test="resource!=''">
+				resource = #{resource,jdbcType=VARCHAR},
+			</if>
+			<if test="recordStatus!=null">
+				record_status = #{recordStatus,jdbcType=VARCHAR}
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT} 
+	</update>
 </mapper>

@@ -22,10 +22,14 @@
 	</resultMap>
 
 	<select id="selectAll" resultMap="BaseResultMap">
-		select app_key,app_secret,level,redirect_uri,invoke_count from openapi_oauth_application where record_status != 'DELETE'
+		select * from openapi_oauth_application where record_status != 'DELETE'
+	</select>
+	
+	<select id="select" resultMap="BaseResultMap">
+		select * from openapi_oauth_application where record_status != 'DELETE' and id=#{0}
 	</select>
 
-	<insert id="insert" parameterType="com.yunhou.openapi.model.oauth.OauthApplication">
+	<insert id="insert" parameterType="com.yunhou.openapi.model.oauth.OauthApplication"  keyProperty="id" useGeneratedKeys="true">
 		insert into
 		openapi_oauth_application(app_key,app_secret,level,invoke_count,redirect_uri,username,iphone,mail,company,record_create_time,record_last_modify)
 		values
@@ -33,4 +37,32 @@
 		#{appKey,jdbcType=VARCHAR},#{appSecret,jdbcType=VARCHAR},#{level,jdbcType=VARCHAR},#{invokeCount,jdbcType=BIGINT},#{redirectUri,jdbcType=VARCHAR},#{username,jdbcType=VARCHAR},#{iphone,jdbcType=VARCHAR},#{mail,jdbcType=VARCHAR},#{company,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP},#{createTime,jdbcType=TIMESTAMP}
 		)
 	</insert>
+	
+	<update id="update" parameterType="com.yunhou.openapi.model.oauth.OauthApplication">
+		update openapi_oauth_application
+		<set>
+			<if test="level!=null">
+				level = #{level,jdbcType=VARCHAR},
+			</if>
+			<if test="username!=''">
+				username = #{username,jdbcType=VARCHAR},
+			</if>
+			<if test="iphone!=''">
+				iphone = #{iphone,jdbcType=VARCHAR},
+			</if>
+			<if test="invokeCount!=null">
+				invoke_count = #{invokeCount,jdbcType=BIGINT},
+			</if>
+			<if test="mail!=''">
+				mail = #{mail,jdbcType=VARCHAR},
+			</if>
+			<if test="company!=''">
+				company = #{company,jdbcType=VARCHAR},
+			</if>
+			<if test="recordStatus!=null">
+				record_status = #{recordStatus,jdbcType=VARCHAR}
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT} 
+	</update>
 </mapper>

@@ -24,7 +24,7 @@ public class RopRequestMessageConverterTest {
     public void testConvertOfXmlFormat() throws Exception {
         RopContext ropContext = mock(RopContext.class);
         SimpleRopRequestContext context = new SimpleRopRequestContext(ropContext);
-        context.setMessageFormat(MessageFormat.xml);
+        context.setMessageFormat(MessageFormat.json);
 
         TypeDescriptor addrTypeDescriptor = TypeDescriptor.valueOf(Addresss.class);
         TypeDescriptor strTypeDescriptor = TypeDescriptor.valueOf(String.class);

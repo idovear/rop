@@ -16,4 +16,10 @@ import com.yunhou.openapi.model.oauth.OauthInterceptor;
 public interface OauthInterceptorDao {
 
     public List<OauthInterceptor> selectAll();
+
+    public void insert(OauthInterceptor interceptor);
+
+    public OauthInterceptor select(long id);
+    
+    public void update(OauthInterceptor interceptor);
 }

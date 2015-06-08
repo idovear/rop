@@ -8,4 +8,8 @@ public interface OauthLimitDao {
     public void insert(OauthLimit oauthLimit);
 
     public List<OauthLimit> selectAll();
-}
+
+    public OauthLimit select(long id);
+
+    public void update(OauthLimit oauthLimit);
+};

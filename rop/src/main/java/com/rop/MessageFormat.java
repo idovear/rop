@@ -10,16 +10,16 @@ import org.springframework.util.StringUtils;
  */
 public enum MessageFormat {
 
-    xml, json, stream;
+    json, stream;
 
     public static MessageFormat getFormat(String value) {
         if (!StringUtils.hasText(value)) {
-            return xml;
+            return json;
         } else {
             try {
                 return MessageFormat.valueOf(value.toLowerCase());
             } catch (IllegalArgumentException e) {
-                return xml;
+                return json;
             }
         }
     }
@@ -27,7 +27,7 @@ public enum MessageFormat {
     public static boolean isValidFormat(String value) {
         if (!StringUtils.hasText(value)) {
             return true;
-        }else{
+        } else {
             try {
                 MessageFormat.valueOf(value.toLowerCase());
                 return true;

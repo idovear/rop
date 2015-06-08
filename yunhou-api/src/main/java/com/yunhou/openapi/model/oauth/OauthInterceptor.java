@@ -4,6 +4,7 @@ import java.util.Date;
 
 import com.yunhou.openapi.model.RecordStatus;
 import com.yunhou.openapi.model.security.RatelimtResource;
+import com.yunhou.openapi.request.config.OauthInterceptorRequest;
 
 /**
  * 
@@ -23,6 +24,16 @@ public class OauthInterceptor {
     private Date createTime = new Date();// 创建时间
     private Date lastModify = new Date();// 最后修改时间
     private RecordStatus recordStatus;// 字段状态
+    
+    public OauthInterceptor(){
+        
+    }
+
+    public OauthInterceptor(OauthInterceptorRequest req) {
+        this.id = req.getId();
+        this.type = req.getType();
+        this.resource = req.getResource();
+    }
 
     public RatelimtResource getType() {
         return type;

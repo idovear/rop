@@ -98,7 +98,7 @@ public class ServletRequestContextBuilderTest {
         assertEquals(requestContext.getVersion(), "3.0");
         assertEquals(requestContext.getLocale(), new Locale("zh", "CN"));
         assertEquals(requestContext.getFormat(), "xml");
-        assertEquals(requestContext.getMessageFormat(), MessageFormat.xml);
+        assertEquals(requestContext.getMessageFormat(), MessageFormat.json);
         assertEquals(requestContext.getSign(), "sign1");
 
         assertEquals(requestContext.getServiceMethodHandler(), methodHandler);
@@ -125,7 +125,7 @@ public class ServletRequestContextBuilderTest {
         SimpleRopRequestContext requestContext = requestContextBuilder.buildBySysParams(ropContext, servletRequest, null);
         assertEquals(requestContext.getLocale(), Locale.SIMPLIFIED_CHINESE);
         assertEquals(requestContext.getFormat(), "xxx");
-        assertEquals(requestContext.getMessageFormat(), MessageFormat.xml);
+        assertEquals(requestContext.getMessageFormat(), MessageFormat.json);
 
     }
 
