@@ -34,13 +34,13 @@
 	<update id="update" parameterType="com.yunhou.openapi.model.oauth.OauthInterceptor">
 		update openapi_oauth_interceptor
 		<set>
-			<if test="type!=null">
+			<if test="type != null">
 				type = #{type,jdbcType=VARCHAR},
 			</if>
-			<if test="resource!=''">
+			<if test="resource != '' and resource != null ">
 				resource = #{resource,jdbcType=VARCHAR},
 			</if>
-			<if test="recordStatus!=null">
+			<if test="recordStatus != null">
 				record_status = #{recordStatus,jdbcType=VARCHAR}
 			</if>
 		</set>

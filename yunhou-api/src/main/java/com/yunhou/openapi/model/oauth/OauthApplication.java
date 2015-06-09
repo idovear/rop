@@ -19,7 +19,7 @@ public class OauthApplication {
     private long id;
     private String appKey;// 应用key
     private String appSecret;// 应用密钥
-    private OauthApplicationLevel level;// 应用级别
+    private String level;// 应用级别
     private String redirectUri;// 回调地址
     private long invokeCount;// 可调用次数 为-1的时候 没有限制
 
@@ -32,18 +32,14 @@ public class OauthApplication {
     private Date createTime = new Date();// 创建时间
     private Date lastModify = new Date();// 最后修改时间
     private RecordStatus recordStatus;// 字段状态
-    
-    public OauthApplication(){
-        
+
+    public OauthApplication() {
+
     }
-    
-    public OauthApplication(OauthApplicationRequest req){
+
+    public OauthApplication(OauthApplicationRequest req) {
         this.id = req.getId();
-        if(req.getLevel()==null){
-            this.level = OauthApplicationLevel.DEV;
-        }else{
-            this.level = req.getLevel();
-        }
+        this.level = req.getLevel();
         this.redirectUri = req.getRedirectUri();
         this.invokeCount = req.getInvokeCount();
         this.username = req.getUsername();
@@ -100,11 +96,11 @@ public class OauthApplication {
         this.createTime = createTime;
     }
 
-    public OauthApplicationLevel getLevel() {
+    public String getLevel() {
         return level;
     }
 
-    public void setLevel(OauthApplicationLevel level) {
+    public void setLevel(String level) {
         this.level = level;
     }
 

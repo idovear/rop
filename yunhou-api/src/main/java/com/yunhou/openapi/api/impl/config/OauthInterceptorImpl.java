@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.rop.RopRequest;
 import com.rop.RopRequestContext;
+import com.rop.annotation.ServiceMethodBean;
 import com.rop.security.MainErrorType;
 import com.rop.security.MainErrors;
 import com.yunhou.openapi.api.config.OauthInterceptorInterface;
@@ -14,6 +15,7 @@ import com.yunhou.openapi.model.RecordStatus;
 import com.yunhou.openapi.model.oauth.OauthInterceptor;
 import com.yunhou.openapi.request.config.OauthInterceptorRequest;
 
+@ServiceMethodBean(version = "1.0")
 public class OauthInterceptorImpl implements OauthInterceptorInterface {
 
     @Autowired
@@ -44,7 +46,7 @@ public class OauthInterceptorImpl implements OauthInterceptorInterface {
         }
         OauthInterceptor oauthInterceptor = new OauthInterceptor(app);
         oauthInterceptorDao.insert(oauthInterceptor);
-        interData.add(oauthInterceptor);
+        interData.put(oauthInterceptor);
         return oauthInterceptor;
     }
 
@@ -65,8 +67,8 @@ public class OauthInterceptorImpl implements OauthInterceptorInterface {
         if (app.getType() == null) {
             newInter.setType(orgInter.getType());
         }
+        interData.put(newInter);
         interData.del(orgInter);
-        interData.add(newInter);
         return 1;
     }
 

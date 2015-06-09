@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yunhou.openapi.dao.mysql.OauthLevelConfigDao">
+
+	<resultMap id="BaseResultMap" type="com.yunhou.openapi.model.oauth.OauthLevelConfig">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="level" property="level" jdbcType="VARCHAR" />
+		<result column="description" property="desc" jdbcType="VARCHAR" />
+		<result column="methods" property="methodsJson" jdbcType="VARCHAR" />
+		<result column="expire_token" property="expireToken" jdbcType="BIGINT" />
+		<result column="record_create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="record_last_modify" property="lastModify" jdbcType="TIMESTAMP" />
+		<result column="record_status" property="recordStatus" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="selectAll" resultMap="BaseResultMap">
+		select * from openapi_oauth_level where record_status != 'DELETE'
+	</select>
+
+	<insert id="insert" parameterType="com.yunhou.openapi.model.oauth.OauthLimit" keyProperty="id" useGeneratedKeys="true">
+		insert into
+		openapi_oauth_level(level,description,methods,expire_token,record_create_time,record_last_modify)
+		values
+		(
+		#{level,jdbcType=VARCHAR},#{desc,jdbcType=VARCHAR},#{methodsJson,jdbcType=VARCHAR},#{expireToken,jdbcType=BIGINT},#{createTime,jdbcType=TIMESTAMP},#{createTime,jdbcType=TIMESTAMP}
+		)
+	</insert>
+	
+	<select id="select" resultMap="BaseResultMap">
+		select * from openapi_oauth_level where record_status != 'DELETE' and id=#{0}
+	</select>
+	
+	<select id="getLevels" resultType="java.lang.String">
+		select level from openapi_oauth_level where record_status != 'DELETE'
+	</select>
+
+	<update id="update" parameterType="com.yunhou.openapi.model.oauth.OauthLevelConfig">
+		update openapi_oauth_level
+		<set>
+			<if test="desc!='' and desc!=null">
+				description = #{desc,jdbcType=VARCHAR},
+			</if>
+			<if test="methodsJson!='' and methodsJson!=null">
+				methods = #{methodsJson,jdbcType=VARCHAR},
+			</if>
+			<if test="expireToken>0">
+				expire_token = #{expireToken,jdbcType=BIGINT},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT} 
+	</update>
+</mapper>

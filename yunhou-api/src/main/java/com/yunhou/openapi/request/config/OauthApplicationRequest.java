@@ -1,12 +1,11 @@
 package com.yunhou.openapi.request.config;
 
 import com.rop.AbstractRopRequest;
-import com.yunhou.openapi.model.oauth.OauthApplicationLevel;
 
 public class OauthApplicationRequest extends AbstractRopRequest {
 
     private long id;
-    private OauthApplicationLevel level = OauthApplicationLevel.DEV;// 应用级别
+    private String level;// 应用级别
     private String redirectUri;// 回调地址
     private long invokeCount = -1;// 可调用次数 为-1的时候 没有限制
     /* 创建人用户信息 */
@@ -23,11 +22,11 @@ public class OauthApplicationRequest extends AbstractRopRequest {
         this.id = id;
     }
 
-    public OauthApplicationLevel getLevel() {
+    public String getLevel() {
         return level;
     }
 
-    public void setLevel(OauthApplicationLevel level) {
+    public void setLevel(String level) {
         this.level = level;
     }
 

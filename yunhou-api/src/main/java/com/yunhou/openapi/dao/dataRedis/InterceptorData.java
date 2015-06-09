@@ -97,7 +97,7 @@ public class InterceptorData {
     
     
     /*更改操作*/
-    public void add(OauthInterceptor inter){
+    public void put(OauthInterceptor inter){
         redisClient.put(RedisMark.REDIS_INTERCEPTOR, getKey(inter.getType(), inter.getResource()),
                 1 + "", -1);
     }

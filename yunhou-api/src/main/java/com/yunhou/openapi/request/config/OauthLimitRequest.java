@@ -1,17 +1,16 @@
 package com.yunhou.openapi.request.config;
 
 import com.rop.AbstractRopRequest;
-import com.yunhou.openapi.model.oauth.OauthApplicationLevel;
 import com.yunhou.openapi.model.oauth.OauthlimitTime;
 import com.yunhou.openapi.model.security.RatelimtResource;
 
 public class OauthLimitRequest extends AbstractRopRequest {
     private long id;
     private RatelimtResource resource;// 来源
-    private String method;// 方法
+    private String methods;// 方法
     private int limitCount;// 限制次数
     private OauthlimitTime limitTime;// 限制次数 时间单位
-    private OauthApplicationLevel level;// 应用等级
+    private String level;// 应用等级
 
     public long getId() {
         return id;
@@ -29,12 +28,12 @@ public class OauthLimitRequest extends AbstractRopRequest {
         this.resource = resource;
     }
 
-    public String getMethod() {
-        return method;
+    public String getMethods() {
+        return methods;
     }
 
-    public void setMethod(String method) {
-        this.method = method;
+    public void setMethods(String methods) {
+        this.methods = methods;
     }
 
     public int getLimitCount() {
@@ -53,11 +52,11 @@ public class OauthLimitRequest extends AbstractRopRequest {
         this.limitTime = limitTime;
     }
 
-    public OauthApplicationLevel getLevel() {
+    public String getLevel() {
         return level;
     }
 
-    public void setLevel(OauthApplicationLevel level) {
+    public void setLevel(String level) {
         this.level = level;
     }
 

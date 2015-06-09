@@ -35,4 +35,6 @@ public interface RedisMark {
 
     public static final String REDIS_INVOKE_LIMIT_COUNT = "invoke:limit:count";// 调用次数限制
 
+    /* 决定用户所有 */
+    public static final String REDIS_SERVICE_ACCESS = "service_access";// 根据等级判断应用是否调用某方法权限
 }

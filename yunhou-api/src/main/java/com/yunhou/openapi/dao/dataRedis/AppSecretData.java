@@ -43,7 +43,7 @@ public class AppSecretData {
                     AppSecret appSecret = new AppSecret();
                     appSecret.setAppKey(app.getAppKey());
                     appSecret.setAppSecret(app.getAppSecret());
-                    appSecret.setLevel(app.getLevel().name());
+                    appSecret.setLevel(app.getLevel());
                     appSecret.setRedirect_uri(app.getRedirectUri());
                     redisClient.put(RedisMark.REDIS_APP, app.getAppKey(), SerializeUtil.serialize(appSecret), -1);
                     if (app.getInvokeCount() >= 0) {
@@ -76,31 +76,17 @@ public class AppSecretData {
     }
 
     /* 更改操作 */
-    public void update(OauthApplication app) {
-        if (app.getLevel() != null) {// 等级修改
-            AppSecret appSecret = new AppSecret();
-            appSecret.setAppKey(app.getAppKey());
-            appSecret.setAppSecret(app.getAppSecret());
-            appSecret.setLevel(app.getLevel().name());
-            appSecret.setRedirect_uri(app.getRedirectUri());
-            redisClient.put(RedisMark.REDIS_APP, app.getAppKey(), SerializeUtil.serialize(appSecret), -1);
-        }
-        if (app.getInvokeCount() >= 0) {
-            redisClient.put(RedisMark.REDIS_INVOKE_LIMIT, app.getAppKey(), app.getInvokeCount() + "", -1);
-        } else {
-            redisClient.del(RedisMark.REDIS_INVOKE_LIMIT, app.getAppKey());
-        }
-    }
-
-    public void add(OauthApplication app) {
+    public void put(OauthApplication app){
         AppSecret appSecret = new AppSecret();
         appSecret.setAppKey(app.getAppKey());
         appSecret.setAppSecret(app.getAppSecret());
-        appSecret.setLevel(app.getLevel().name());
+        appSecret.setLevel(app.getLevel());
         appSecret.setRedirect_uri(app.getRedirectUri());
         redisClient.put(RedisMark.REDIS_APP, app.getAppKey(), SerializeUtil.serialize(appSecret), -1);
         if (app.getInvokeCount() >= 0) {
             redisClient.put(RedisMark.REDIS_INVOKE_LIMIT, app.getAppKey(), app.getInvokeCount() + "", -1);
+        } else {
+            redisClient.del(RedisMark.REDIS_INVOKE_LIMIT, app.getAppKey());
         }
     }
 

@@ -79,7 +79,7 @@ public class OauthApplicationImpl implements OauthApplicationInterface {
         oauthApplication.setAppKey(MD5Util.GetMD5Code(UUID.randomUUID().toString()));
         oauthApplication.setAppSecret(MD5Util.GetMD5Code(UUID.randomUUID().toString()));
         oauthApplicationDao.insert(oauthApplication);
-        appSData.add(oauthApplication);
+        appSData.put(oauthApplication);
         return new OauthAppResponse(oauthApplication);
     }
 
@@ -88,9 +88,24 @@ public class OauthApplicationImpl implements OauthApplicationInterface {
         if (app.getId() <= 0) {
             return MainErrors.getError(MainErrorType.INVALID_ARGUMENTS, req.getLocale(), req.getMethod(), "id");
         }
+        if (app.getInvokeCount() < -1) {
+            return MainErrors.getError(MainErrorType.INVALID_ARGUMENTS, req.getLocale(), req.getMethod(), "invokeCount");
+        }
+
+        OauthApplication orgApp = oauthApplicationDao.select(app.getId());
+        if (orgApp == null) {
+            return MainErrors.getError(MainErrorType.INVALID_ARGUMENTS, req.getLocale(), req.getMethod(), "id");
+        }
         OauthApplication oauthApplication = new OauthApplication(app);
         oauthApplicationDao.update(oauthApplication);
-        appSData.update(oauthApplication);
+
+        if (StringUtils.isNotBlank(oauthApplication.getLevel())) {
+            orgApp.setLevel(oauthApplication.getLevel());
+        }
+        if (app.getInvokeCount() != 0) {
+            orgApp.setInvokeCount(oauthApplication.getInvokeCount());
+        }
+        appSData.put(orgApp);
         return 1;
     }
 

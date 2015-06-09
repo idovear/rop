@@ -14,7 +14,7 @@
     function update(id){
     	var data = {
     			appKey:appkey,
-                method:"oauth.app.get.id",
+                method:"oauth.interceptor.get.id",
                 access_token:access_token,
                 v:v,
                 id:id
@@ -22,12 +22,8 @@
     	 $.get(url,data,function(data,textStatus){
     		 if(data.message == null && data.solution== null){
     			 $("#id").val(data.id);
-    			 $("#level").val(data.level);
-    			 $("#invokeCount").val(data.invokeCount);
-    			 $("#username").val(data.username);
-    			 $("#iphone").val(data.iphone);
-    			 $("#mail").val(data.mail);
-    			 $("#company").val(data.company);
+    			 $("#type").val(data.type);
+    			 $("#resource").val(data.resource);
     		 }else{
     			 $("#error").html(JSON.stringify(data));
     		 }
@@ -37,7 +33,7 @@
     function del(id){
     	var data = {
     			appKey:appkey,
-                method:"oauth.app.delete",
+                method:"oauth.interceptor.delete",
                 access_token:access_token,
                 v:v,
                 id:id
@@ -51,52 +47,46 @@
     	 });
     }
     
+    function methodToString(serviceMethods){
+    	var result = '';
+    	for(var i=0;i<serviceMethods.length;i++){
+    		result+=serviceMethods[i]+","
+    	}
+    	return result;
+    }
+    
     function submitBtn(){
     	var id = $("#id").val();
     	var data = {
     			appKey:appkey,
-                method:"oauth.app.get.id",
+                method:"oauth.interceptor.get.id",
                 access_token:access_token,
                 v:v,
                 id:id,
-                level:$("#level").val(),
-                invokeCount:$("#invokeCount").val(),
-                username:$("#username").val(),
-                iphone:$("#iphone").val(),
-                mail:$("#mail").val(),
-                company:$("#company").val(),
-                redirectUri:$("#redirectUri").val()
+                type:$("#type").val(),
+                resource:$("#resource").val(),
             };
     	
     	if(id == ''){//add
-    		data.method = "oauth.app.add";
+    		data.method = "oauth.interceptor.add";
     		data.id = 0;
     		$.post(url,data,function(data,textStatus){
        		 if(data.message == null && data.solution== null){
        			 $("#id").val("");
-       			 $("#level").val("dev");
-       			 $("#invokeCount").val("");
-       			 $("#username").val("");
-       			 $("#iphone").val("");
-       			 $("#mail").val("");
-       			 $("#company").val("");
-       			 $("#redirectUri").val("");
+       			 $("#type").val("IP");
+       			 $("#resource").val("");
        			load();
        		 }else{
        			 $("#error").html(JSON.stringify(data));
        		 }
        	 });
     	}else{//update
-    		data.method = "oauth.app.update";
+    		data.method = "oauth.interceptor.update";
     		$.post(url,data,function(data,textStatus){
        		 if(data.message == null && data.solution== null){
-       			 $("#id").val("");
-       			 $("#level").val("dev");
-       			 $("#invokeCount").val("");
-       			 $("#username").val("");
-       			 $("#iphone").val("");
-       			 $("#mail").val("");
-       			 $("#company").val("");
+       			$("#id").val("");
+      			 $("#type").val("IP");
+      			 $("#resource").val("");
        			load();
        		 }else{
        			 $("#error").html(JSON.stringify(data));
@@ -105,22 +95,18 @@
     	}
     }
     
+    
     function clearBtn(){
-         $("#id").val("");
-		 $("#level").val("dev");
-		 $("#invokeCount").val("");
-		 $("#username").val("");
-		 $("#iphone").val("");
-		 $("#mail").val("");
-		 $("#company").val("");
-		 $("#redirectUri").val("");
-   }
+    	$("#id").val("");
+		 $("#type").val("IP");
+		 $("#resource").val("");
+    }
     
     
     function load(){
     	var data = {
     			appKey:appkey,
-                method:"oauth.app.get",
+                method:"oauth.interceptor.get",
                 access_token:access_token,
                 v:v
             };
@@ -129,15 +115,8 @@
             		var html = "";
             		for(var i=0;i<data.length;i++){
             			html+="<tr>";
-            			html+="<td>"+data[i].appKey+"</td>";
-            			html+="<td>"+data[i].appSecret+"</td>";
-            			html+="<td>"+data[i].level+"</td>";
-            			html+="<td>"+data[i].redirectUri+"</td>";
-            			html+="<td>"+data[i].invokeCount+"</td>";
-            			html+="<td>"+data[i].username+"</td>";
-            			html+="<td>"+data[i].iphone+"</td>";
-            			html+="<td>"+data[i].mail+"</td>";
-            			html+="<td>"+data[i].company+"</td>";
+            			html+="<td>"+data[i].type+"</td>";
+            			html+="<td>"+data[i].resource+"</td>";
             			html+='<td><input type="button" value="修改" onclick="update('+data[i].id+')"/><input type="button" value="删除" onclick="del('+data[i].id+')"/></td>';
             			html+="</tr>"
             		}
@@ -148,29 +127,8 @@
             });
     }
     
-    function loadlevel(){
-    	var data = {
-    			appKey:appkey,
-                method:"oauth.level.list",
-                access_token:access_token,
-                v:v
-            };
-            $.get(url,data,function(data,textStatus){
-            	if(data.message == null && data.solution== null && data.length>0){
-            		var html = "";
-            		for(var i=0;i<data.length;i++){
-            			html+="<option value='"+data[i]+"'>"+data[i]+"</option>";
-            		}
-            		$("#level").html(html);
-            	}else{
-            		$("#error").html(JSON.stringify(data));
-            	}
-            });
-    }
-    
     $(document).ready(function(){
     	load();
-    	loadlevel();
     });
     </script>
     <style type="text/css">
@@ -199,18 +157,14 @@
     </style>
 </head>
 <body>
+	<h1>拦截管理</h1>
+	
+
 	<span id="error"></span>
 	<table>
 		<thead>
-			<th>appkey</th>
-			<th>appSecret</th>
-			<th>等级</th>
-			<th>回调地址</th>
-			<th>可访问次数(-1无限)</th>
-			<th>申请人</th>
-			<th>联系电话</th>
-			<th>邮箱</th>
-			<th>公司名称</th>
+			<th>类型</th>
+			<th>拦截匹配</th>
 			<th>操作</th>
 		</thead>
 		<tbody id="content">
@@ -221,16 +175,12 @@
 <br /><br /><br />
 	<div>
 		<input type="hidden" id="id"  value="" />
-		1.等级          <select id="level">
-					<option>aa</option>
-					<option>bb</option>
-				</select> <br/>
-		2.可访问次数 <input id="invokeCount" type="text" value="" /><br/>
-		3.申请人        <input id="username" type="text" value="" /><br/>
-		4.联系电话   <input id="iphone" type="text" value="" /><br/>
-		5.邮箱            <input id="mail" type="text" value="" /><br/>
-		6.公司名称  <input id="company" type="text" value="" /><br/>
-		8.回调地址 <input id="redirectUri" type="text" value="" /><br/>
+		1.类型    	<select id="type">
+					<option value="IP">ip拦截</option>
+					<option value="USER_ID">用户ID拦截</option>
+					<option value="APP_KEY">应用key拦截</option>
+				</select><br/>
+		2.拦截匹配 <input id="resource" type="text" value="" /><br/>
 		 <input type="button" value="提交" onclick="submitBtn();"/>
 		 <input type="button" value="清空" onclick="clearBtn();"/>
 	</div>

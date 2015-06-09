@@ -1,17 +1,18 @@
 package com.yunhou.openapi.security;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.rop.security.ServiceAccessController;
-import com.rop.security.SessionConstans;
 import com.rop.session.Session;
+import com.yunhou.openapi.dao.dataRedis.AppSecretData;
+import com.yunhou.openapi.dao.dataRedis.ServiceAccessData;
 
 /**
  * <pre>
- * 功能说明：
+ * 功能说明：判断应用访问服务权限
  * </pre>
  * 
  * @author 陈雄华
@@ -19,32 +20,28 @@ import com.rop.session.Session;
  */
 public class YunhouServiceAccessController implements ServiceAccessController {
 
-    private static final Map<String, List<String>> aclMap = new HashMap<String, List<String>>();
-
-    static {
-        ArrayList<String> serviceMethods = new ArrayList<String>();
-        serviceMethods.add("user.logon");
-        serviceMethods.add("user.logout");
-        serviceMethods.add("user.getSession");
-        aclMap.put("00003", serviceMethods);
-    }
+    @Autowired
+    private ServiceAccessData accessData;
+    @Autowired
+    private AppSecretData secretData;
 
     public boolean isAppGranted(String appKey, String method, String version) {
-        if (aclMap.containsKey(appKey)) {
-            List<String> serviceMethods = aclMap.get(appKey);
-            return serviceMethods.contains(method);
+        String level = secretData.getRoleLevel(appKey);
+        if (StringUtils.isBlank(level)) {
+            return false;
+        }
+        List<String> services = accessData.getServices(level);
+        if (services == null || services.size() == 0) {
+            return false;
         } else {
-            return true;
+            if (services.contains("*")) {
+                return true;
+            }
+            return services.contains(method);
         }
     }
 
     public boolean isUserGranted(Session session, String method, String version) {
-        String userId = "";
-        if (session != null) {
-            if (session.getAttribute(SessionConstans.USER_ID) != null) {
-                userId = session.getAttribute(SessionConstans.USER_ID) + "";
-            }
-        }
         return true;
     }
 }

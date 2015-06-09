@@ -14,7 +14,7 @@
     function update(id){
     	var data = {
     			appKey:appkey,
-                method:"oauth.app.get.id",
+                method:"oauth.limit.get.id",
                 access_token:access_token,
                 v:v,
                 id:id
@@ -22,12 +22,11 @@
     	 $.get(url,data,function(data,textStatus){
     		 if(data.message == null && data.solution== null){
     			 $("#id").val(data.id);
+    			 $("#resource").val(data.resource);
+    			 $("#methods").val(data.method);
+    			 $("#limitCount").val(data.limitCount);
+    			 $("#limitTime").val(data.limitTime);
     			 $("#level").val(data.level);
-    			 $("#invokeCount").val(data.invokeCount);
-    			 $("#username").val(data.username);
-    			 $("#iphone").val(data.iphone);
-    			 $("#mail").val(data.mail);
-    			 $("#company").val(data.company);
     		 }else{
     			 $("#error").html(JSON.stringify(data));
     		 }
@@ -37,7 +36,7 @@
     function del(id){
     	var data = {
     			appKey:appkey,
-                method:"oauth.app.delete",
+                method:"oauth.limit.delete",
                 access_token:access_token,
                 v:v,
                 id:id
@@ -55,48 +54,43 @@
     	var id = $("#id").val();
     	var data = {
     			appKey:appkey,
-                method:"oauth.app.get.id",
+                method:"oauth.limit.get.id",
                 access_token:access_token,
                 v:v,
                 id:id,
+                resource:$("#resource").val(),
+                methods:$("#methods").val(),
+                limitCount:$("#limitCount").val(),
+                limitTime:$("#limitTime").val(),
                 level:$("#level").val(),
-                invokeCount:$("#invokeCount").val(),
-                username:$("#username").val(),
-                iphone:$("#iphone").val(),
-                mail:$("#mail").val(),
-                company:$("#company").val(),
-                redirectUri:$("#redirectUri").val()
             };
     	
     	if(id == ''){//add
-    		data.method = "oauth.app.add";
+    		data.method = "oauth.limit.add";
     		data.id = 0;
     		$.post(url,data,function(data,textStatus){
        		 if(data.message == null && data.solution== null){
        			 $("#id").val("");
-       			 $("#level").val("dev");
-       			 $("#invokeCount").val("");
-       			 $("#username").val("");
-       			 $("#iphone").val("");
-       			 $("#mail").val("");
-       			 $("#company").val("");
-       			 $("#redirectUri").val("");
+	       		 $("#resource").val("IP");
+	       		 $("#methods").val("");
+	       		 $("#limitCount").val("");
+	       		 $("#limitTime").val("SECONDS");
+	       		 $("#level").val("config");
        			load();
        		 }else{
        			 $("#error").html(JSON.stringify(data));
        		 }
        	 });
     	}else{//update
-    		data.method = "oauth.app.update";
+    		data.method = "oauth.limit.update";
     		$.post(url,data,function(data,textStatus){
        		 if(data.message == null && data.solution== null){
        			 $("#id").val("");
-       			 $("#level").val("dev");
-       			 $("#invokeCount").val("");
-       			 $("#username").val("");
-       			 $("#iphone").val("");
-       			 $("#mail").val("");
-       			 $("#company").val("");
+	       		 $("#resource").val("IP");
+	       		 $("#methods").val("");
+	       		 $("#limitCount").val("");
+	       		 $("#limitTime").val("SECONDS");
+	       		 $("#level").val("config");
        			load();
        		 }else{
        			 $("#error").html(JSON.stringify(data));
@@ -105,22 +99,21 @@
     	}
     }
     
+    
     function clearBtn(){
-         $("#id").val("");
-		 $("#level").val("dev");
-		 $("#invokeCount").val("");
-		 $("#username").val("");
-		 $("#iphone").val("");
-		 $("#mail").val("");
-		 $("#company").val("");
-		 $("#redirectUri").val("");
-   }
+   		 $("#id").val("");
+		 $("#resource").val("IP");
+		 $("#methods").val("");
+		 $("#limitCount").val("");
+		 $("#limitTime").val("SECONDS");
+		 $("#level").val("config");
+    }
     
     
     function load(){
     	var data = {
     			appKey:appkey,
-                method:"oauth.app.get",
+                method:"oauth.limit.get",
                 access_token:access_token,
                 v:v
             };
@@ -129,15 +122,11 @@
             		var html = "";
             		for(var i=0;i<data.length;i++){
             			html+="<tr>";
-            			html+="<td>"+data[i].appKey+"</td>";
-            			html+="<td>"+data[i].appSecret+"</td>";
             			html+="<td>"+data[i].level+"</td>";
-            			html+="<td>"+data[i].redirectUri+"</td>";
-            			html+="<td>"+data[i].invokeCount+"</td>";
-            			html+="<td>"+data[i].username+"</td>";
-            			html+="<td>"+data[i].iphone+"</td>";
-            			html+="<td>"+data[i].mail+"</td>";
-            			html+="<td>"+data[i].company+"</td>";
+            			html+="<td>"+data[i].resource+"</td>";
+            			html+="<td>"+data[i].method+"</td>";
+            			html+="<td>"+data[i].limitCount+"</td>";
+            			html+="<td>"+data[i].limitTime+"</td>";
             			html+='<td><input type="button" value="修改" onclick="update('+data[i].id+')"/><input type="button" value="删除" onclick="del('+data[i].id+')"/></td>';
             			html+="</tr>"
             		}
@@ -199,19 +188,22 @@
     </style>
 </head>
 <body>
+	<h1>应用频率管理</h1>
+	<div style="color: red;font-size: 12px">
+		1.配置某应用级别通过不同类型频率限制<br/>
+		2.可以配置精确到方法<br />
+		3.如果某个应用等级没有配置的话，那么就代表没有频率限制
+	</div>
+	
+
 	<span id="error"></span>
 	<table>
 		<thead>
-			<th>appkey</th>
-			<th>appSecret</th>
 			<th>等级</th>
-			<th>回调地址</th>
-			<th>可访问次数(-1无限)</th>
-			<th>申请人</th>
-			<th>联系电话</th>
-			<th>邮箱</th>
-			<th>公司名称</th>
-			<th>操作</th>
+			<th>类型</th>
+			<th>方法</th>
+			<th>限制次数</th>
+			<th>单位</th>
 		</thead>
 		<tbody id="content">
 			
@@ -221,16 +213,24 @@
 <br /><br /><br />
 	<div>
 		<input type="hidden" id="id"  value="" />
-		1.等级          <select id="level">
+		1.等级            <select id="level">
 					<option>aa</option>
 					<option>bb</option>
 				</select> <br/>
-		2.可访问次数 <input id="invokeCount" type="text" value="" /><br/>
-		3.申请人        <input id="username" type="text" value="" /><br/>
-		4.联系电话   <input id="iphone" type="text" value="" /><br/>
-		5.邮箱            <input id="mail" type="text" value="" /><br/>
-		6.公司名称  <input id="company" type="text" value="" /><br/>
-		8.回调地址 <input id="redirectUri" type="text" value="" /><br/>
+		2.类型    	<select id="resource">
+					<option value="IP">ip限制</option>
+					<option value="USER_ID">用户级别限制</option>
+					<option value="APP_KEY">应用级别限制</option>
+				</select><br/>
+		3.方法       <input id="methods" type="text" value="" />(*所有)<br/>
+		4.限制次数   <input id="limitCount" type="text" value="" />
+				<select id="limitTime" style="width: 100px">
+					<option value="SECONDS">秒</option>
+					<option value="MINUTE">分</option>
+					<option value="HOUR">时</option>
+					<option value="DAY">天</option>
+				</select>
+				<br/>
 		 <input type="button" value="提交" onclick="submitBtn();"/>
 		 <input type="button" value="清空" onclick="clearBtn();"/>
 	</div>

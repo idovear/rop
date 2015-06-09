@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <title>应用配置</title>
+    <script src="jquery-1.10.2.min.js"></script>
+    <script src="jquery.encoding.js"></script>
+    <script type="text/javascript">
+    var url = "http://localhost:8080/yunhou-api/api";
+    var appkey = 'b3e935a1ca2e5e7272889a21c3846e94';
+    var v = '1.0';
+    var access_token='2.0017fc54e8793f4af6b58ad8ecb0e19f1c';
+    
+    function update(id){
+    	var data = {
+    			appKey:appkey,
+                method:"oauth.level.get.id",
+                access_token:access_token,
+                v:v,
+                id:id
+            };
+    	 $.get(url,data,function(data,textStatus){
+    		 if(data.message == null && data.solution== null){
+    			 $("#id").val(data.id);
+    			 $("#level").val(data.level);
+    			 $("#desc").val(data.desc);
+    			 $("#methods").val(methodToString(data.serviceMethods));
+    			 $("#expireTokenTime").val(data.expireToken);
+    		 }else{
+    			 $("#error").html(JSON.stringify(data));
+    		 }
+    	 });
+    }
+    
+    function methodToString(serviceMethods){
+    	var result = '';
+    	for(var i=0;i<serviceMethods.length;i++){
+    		result+=serviceMethods[i]+","
+    	}
+    	return result;
+    }
+    
+    function submitBtn(){
+    	var id = $("#id").val();
+    	var data = {
+    			appKey:appkey,
+                method:"oauth.level.get.id",
+                access_token:access_token,
+                v:v,
+                id:id,
+                level:$("#level").val(),
+                desc:$("#desc").val(),
+                methods:$("#methods").val(),
+                expireTokenTime:$("#expireTokenTime").val(),
+            };
+    	
+    	if(id == ''){//add
+    		data.method = "oauth.level.add";
+    		data.id = 0;
+    		$.post(url,data,function(data,textStatus){
+       		 if(data.message == null && data.solution== null){
+       			 $("#id").val("");
+       			 $("#level").val("");
+       			 $("#desc").val("");
+       			 $("#methods").val("");
+       			 $("#expireTokenTime").val("");
+       			load();
+       		 }else{
+       			 $("#error").html(JSON.stringify(data));
+       		 }
+       	 });
+    	}else{//update
+    		data.method = "oauth.level.update";
+    		$.post(url,data,function(data,textStatus){
+       		 if(data.message == null && data.solution== null){
+       			$("#id").val("");
+      			 $("#level").val("");
+      			 $("#desc").val("");
+      			 $("#methods").val("");
+      			 $("#expireTokenTime").val("");
+       			load();
+       		 }else{
+       			 $("#error").html(JSON.stringify(data));
+       		 }
+       	 });
+    	}
+    }
+    
+    
+    function clearBtn(){
+    	 $("#id").val("");
+		 $("#level").val("");
+		 $("#desc").val("");
+		 $("#methods").val("");
+		 $("#expireTokenTime").val("");
+    }
+    
+    
+    function load(){
+    	var data = {
+    			appKey:appkey,
+                method:"oauth.level.get",
+                access_token:access_token,
+                v:v
+            };
+            $.get(url,data,function(data,textStatus){
+            	if(data.message == null && data.solution== null && data.length>0){
+            		var html = "";
+            		for(var i=0;i<data.length;i++){
+            			html+="<tr>";
+            			html+="<td>"+data[i].level+"</td>";
+            			html+="<td>"+data[i].desc+"</td>";
+            			html+="<td>"+methodToString(data[i].serviceMethods)+"</td>";
+            			html+="<td>"+data[i].expireToken+"</td>";
+            			html+='<td><input type="button" value="修改" onclick="update('+data[i].id+')"/></td>';
+            			html+="</tr>"
+            		}
+            		$("#content").html(html);
+            	}else{
+            		$("#error").html(JSON.stringify(data));
+            	}
+            });
+    }
+    
+    $(document).ready(function(){
+    	load();
+    });
+    </script>
+    <style type="text/css">
+   		body{
+   			text-align: center;
+   		}
+         input[type=text]{width: 500px;}
+         input[type=button]{width: 100px;}
+         table{
+         	margin: auto;
+         }
+         td {
+			text-align: center;
+			min-width: 100px;
+		}
+		th {
+			text-align: center;
+		}
+		#error{
+			font-size: 12px;
+			color: red;
+		}
+    </style>
+</head>
+<body>
+	<h1>应用等级配置</h1>
+	<div style="color: red;font-size: 12px">
+		1.配置某级别应用可访问的方法<br/>
+		2.配置某级别应用用户令牌有效时间
+	
+	</div>
+	
+
+	<span id="error"></span>
+	<table>
+		<thead>
+			<th>等级</th>
+			<th>等级描述</th>
+			<th>方法</th>
+			<th>token过期时间</th>
+			<th>操作</th>
+		</thead>
+		<tbody id="content">
+			
+		</tbody>
+	</table>
+
+<br /><br /><br />
+	<div>
+		<input type="hidden" id="id"  value="" />
+		1.等级           <input id="level" type="text" value="" /><br/>
+		2.等级描述 <input id="desc" type="text" value="" /><br/>
+		3.方法       <input id="methods" type="text" value="" /><br/>
+		4.token过期时间   <input id="expireTokenTime" type="text" value="" /><br/>
+		 <input type="button" value="提交" onclick="submitBtn();"/>
+		 <input type="button" value="清空" onclick="clearBtn();"/>
+	</div>
+</body>
+</html>

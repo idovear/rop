@@ -41,22 +41,22 @@
 	<update id="update" parameterType="com.yunhou.openapi.model.oauth.OauthApplication">
 		update openapi_oauth_application
 		<set>
-			<if test="level!=null">
+			<if test="level !=null and level != ''">
 				level = #{level,jdbcType=VARCHAR},
 			</if>
-			<if test="username!=''">
+			<if test="username != '' and username != null">
 				username = #{username,jdbcType=VARCHAR},
 			</if>
-			<if test="iphone!=''">
+			<if test="iphone !='' and iphone != null">
 				iphone = #{iphone,jdbcType=VARCHAR},
 			</if>
-			<if test="invokeCount!=null">
+			<if test="invokeCount>0">
 				invoke_count = #{invokeCount,jdbcType=BIGINT},
 			</if>
-			<if test="mail!=''">
+			<if test="mail!='' and mail!=null">
 				mail = #{mail,jdbcType=VARCHAR},
 			</if>
-			<if test="company!=''">
+			<if test="company!='' and company!=null">
 				company = #{company,jdbcType=VARCHAR},
 			</if>
 			<if test="recordStatus!=null">

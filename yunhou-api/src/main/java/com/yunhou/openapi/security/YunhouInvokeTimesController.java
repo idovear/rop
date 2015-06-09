@@ -11,7 +11,7 @@ import com.yunhou.openapi.model.security.RatelimtResource;
 
 /**
  * <pre>
- * 功能说明：
+ * 功能说明：次数和频率限制
  * </pre>
  * 
  * @author 陈雄华

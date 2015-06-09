@@ -2,113 +2,43 @@
 <html>
 <head>
     <meta http-equiv="content-type" content="text/html;charset=utf-8">
-    <title>ROP跨域测试</title>
-    <script src="jquery-1.10.2.min.js"></script>
-    <script src="jquery.encoding.js"></script>
-    <script type="text/javascript">
-    $(function(){
-        $("#logonBtn").click(function(){
-            var data = {
-                appKey:$("#appKey").val(),
-                userName:$("#userName").val(),
-                password:$("#password").val(),
-                method:"user.getSession",
-                messageFormat:"json",
-                v:"1.0"
-            };
-            signBySha1(data);
-            $.get($("#routerUrl").val(),data,function(data,textStatus){
-                $("#result").html("");
-                $("#result").fadeOut();
-                var date = (new Date());
-                var time = date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
-                $("#result").html("<b>time:</b>"+time+ "<br/>"+
-                                  "<b>data:</b><br/>"+ JSON.stringify(data) +"<br/>"+
-                                  "<b>textStatus:</b><br/>"+textStatus);
-                $("#result").fadeIn();
-            });
-        });
-
-        $("#jsonp").click(function(){
-            var data={
-                appKey:$("#appKey").val(),
-                userName:$("#userName").val(),
-//                password:$("#password").val(),  //password不签名！
-                method:"user.getSession",
-                messageFormat:"json",
-                v:"1.0"
-            };
-            signBySha1(data);
-            $.ajax({
-                type: "get",
-                async: false,
-                url: $("#routerUrl").val(),
-                data:data,
-                dataType: "jsonp",
-                jsonp: "__invoke",//传递给请求处理程序或页面的，用以获得jsonp回调函数名的参数名(一般默认为:callback)
-//                jsonpCallback:"flightHandler",//自定义的jsonp回调函数名称，默认为jQuery自动生成的随机函数名，也可以写"?"，jQuery会自动为你处理数据
-                success: function(data,textStatus){
-
-                    $("#result").html("");
-                    $("#result").fadeOut();
-                    var date = (new Date());
-                    var time = date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
-                    $("#result").html("<b>time:</b>"+time+ "<br/>"+
-                            "<b>data:</b><br/>"+ JSON.stringify(data) +"<br/>"+
-                            "<b>textStatus:</b><br/>"+textStatus);
-                    $("#result").fadeIn();
-                },
-                error: function(xmlHttpRequest,textStatus,errorThrown){
-                    $("#result").html("");
-                    $("#result").fadeOut();
-                    var date = (new Date());
-                    var time = date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
-                    $("#result").html("<b>time:</b>"+time+ "<br/>"+
-                            "<b>data:</b><br/>"+ JSON.stringify(xmlHttpRequest) +"<br/>"+
-                            "<b>textStatus:</b><br/>"+textStatus);
-                    $("#result").fadeIn();
-                }
-            });
-        });
-
-        function signBySha1(data){
-          var secret = $("#secret").val();
-          var tempStr = secret+ "appKey"+data["appKey"];
-          tempStr += "messageFormat"+data["messageFormat"];
-          tempStr += "method"+data["method"];
-//          tempStr += "password"+data["password"];
-          tempStr += "userName"+data["userName"];
-          tempStr += "v"+data["v"];
-          tempStr += secret;
-          var signData = $.encoding.digests.hexSha1Str(tempStr);
-          data["sign"]=signData;
-          return data;
-        }
-
-    })
-    </script>
-    <style type="text/css">
-         input[type=text]{width: 500px;}
-         input[type=button]{width: 100px;}
+    <title>OPEN PLATFORM 演示流程</title>
+    
+     <style type="text/css">
+   		body{
+   			text-align: center;
+   		}
+   		table{
+         	margin: auto;
+         }
+         td {
+			min-width: 100px;
+		}
     </style>
 </head>
 <body>
-
-
-   基础设置
-   <hr/>
-   <div>
-      1.router url:<input id="routerUrl" type="text" value="http://localhost:8080/rop-sample/api"/> <br/>
-      2.appkey:<input id="appKey" type="text" value="00001"/>   <br/>
-      3.secret:<input id="secret" type="text" value="abcdeabcdeabcdeabcdeabcde"/>    <br/>
-   </div>
-   <br/>
-   登录测试：
-   <hr/>
-     1.用户名：<input id="userName" type="text" value="tomson"/><br/>
-     2.密码：<input id="password" type="text" value="123456"/><br/>
-   请求结果： <div id="result" style="background-color: #EFEFEF"></div>
-   <input id="logonBtn" type="button" value="提交"/>
-   <input id="jsonp" type="button" value="JSONP"/>
+	<h1>OPEN PLATFORM 演示流程</h1>
+	<table>
+		<tr>
+			<td><a href="levelconfig.html" target="_blank">1.添加应用等级配置</a></td>
+		</tr>
+		<tr>
+			<td><a href="oauthlimit.html" target="_blank">2.应用频率管理</a></td>
+		</tr>
+		<tr>
+			<td><a href="oauthapp.html" target="_blank">3.申请应用</a></td>
+		</tr>
+		<tr>
+			<td><a href="interceptor.html" target="_blank">4.拦截管理</a></td>
+		</tr>
+		<tr>
+			<td><a href="http://localhost:8080/yunhou-oauth/index.html" target="_blank">5.oauth2.0</a></td>
+		</tr>
+		<tr>
+			<td><br /><br />
+				测试接口:http://localhost:8080/yunhou-api/api?method=openapi.test&messageFormat=json&v=1.0&appKey=b3e935a1ca2e5e7272889a21c3846e94&access_token=2.0017fc54e8793f4af6b58ad8ecb0e19f1c
+			</td>
+		</tr>
+	</table>
 </body>
 </html>

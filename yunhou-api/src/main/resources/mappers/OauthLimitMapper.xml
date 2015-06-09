@@ -25,7 +25,7 @@
 		openapi_oauth_limit(resource,method,limit_count,limit_time,level,record_create_time,record_last_modify)
 		values
 		(
-		#{resource,jdbcType=VARCHAR},#{method,jdbcType=VARCHAR},#{limitCount,jdbcType=VARCHAR},#{limitTime,jdbcType=VARCHAR},#{level,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP},#{createTime,jdbcType=TIMESTAMP}
+		#{resource,jdbcType=VARCHAR},#{method,jdbcType=VARCHAR},#{limitCount,jdbcType=BIGINT},#{limitTime,jdbcType=VARCHAR},#{level,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP},#{createTime,jdbcType=TIMESTAMP}
 		)
 	</insert>
 	
@@ -34,22 +34,22 @@
 	</select>
 
 	<update id="update" parameterType="com.yunhou.openapi.model.oauth.OauthLimit">
-		update openapi_oauth_application
+		update openapi_oauth_limit
 		<set>
 			<if test="resource!=null">
 				resource = #{resource,jdbcType=VARCHAR},
 			</if>
-			<if test="method!=''">
+			<if test="method!='' and method!=null">
 				method = #{method,jdbcType=VARCHAR},
 			</if>
-			<if test="limitCount!=null">
-				limit_count = #{limitCount,jdbcType=VARCHAR},
+			<if test="limitCount>0">
+				limit_count = #{limitCount,jdbcType=BIGINT},
 			</if>
 			<if test="limitTime!=null">
-				limit_time = #{limitTime,jdbcType=BIGINT},
+				limit_time = #{limitTime,jdbcType=VARCHAR},
 			</if>
-			<if test="level!=null">
-				level = #{level,jdbcType=BIGINT},
+			<if test="level!=null and level!=''">
+				level = #{level,jdbcType=VARCHAR},
 			</if>
 			<if test="recordStatus!=null">
 				record_status = #{recordStatus,jdbcType=VARCHAR}

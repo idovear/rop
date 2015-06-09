@@ -1,10 +1,5 @@
 package com.yunhou.openapi.security;
 
-/**
- * 版权声明：中图一购网络科技有限公司 版权所有 违者必究 2012 
- * 日    期：12-5-25
- */
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.rop.security.AppSecretManager;
@@ -12,7 +7,7 @@ import com.yunhou.openapi.dao.dataRedis.AppSecretData;
 
 /**
  * <pre>
- * 功能说明：
+ * 功能说明：应用管理
  * </pre>
  * 
  * @author 陈雄华

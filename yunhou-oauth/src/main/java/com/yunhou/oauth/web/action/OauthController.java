@@ -147,8 +147,9 @@ public class OauthController extends BaseController {
                 String code = Base64Util.getBase64(MD5Util.GetMD5Code(str));
                 redirect += "code=" + code;
                 User user = new User();// TODO 登录成功获取用户信息
-                user.setUserId("idovear");
-                user.setUsername("idovear");
+                String username = "idovear" + System.currentTimeMillis();
+                user.setUserId(username);
+                user.setUsername(username);
                 oauthRedis.putCode(appkey, code, user);
             } else {// 登录失败
                 redirect += "error=sessionid expires&error_description=sessionid not exist or expires";

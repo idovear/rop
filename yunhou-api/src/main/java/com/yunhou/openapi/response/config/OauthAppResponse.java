@@ -13,6 +13,7 @@ public class OauthAppResponse implements Serializable {
     private static final long serialVersionUID = 1L;
     private long id;
     private String appKey;// 应用key
+    private String appSecret;
     private String level;// 应用级别
     private String redirectUri;// 回调地址
     private long invokeCount;// 可调用次数 为-1的时候 没有限制
@@ -28,7 +29,8 @@ public class OauthAppResponse implements Serializable {
     public OauthAppResponse(OauthApplication oauthApplication) {
         this.id = oauthApplication.getId();
         this.appKey = oauthApplication.getAppKey();
-        this.level = oauthApplication.getLevel().name();
+        this.appSecret = oauthApplication.getAppSecret();
+        this.level = oauthApplication.getLevel();
         this.redirectUri = oauthApplication.getRedirectUri();
         this.invokeCount = oauthApplication.getInvokeCount();
         this.username = oauthApplication.getUsername();
@@ -73,6 +75,14 @@ public class OauthAppResponse implements Serializable {
 
     public long getInvokeCount() {
         return invokeCount;
+    }
+
+    public String getAppSecret() {
+        return appSecret;
+    }
+
+    public void setAppSecret(String appSecret) {
+        this.appSecret = appSecret;
     }
 
     public void setInvokeCount(long invokeCount) {

@@ -47,10 +47,10 @@ public class InvokeTimesData {
             if (limits != null && limits.size() > 0) {
                 for (OauthLimit oauthLimit : limits) {
                     redisClient.put(RedisMark.REDIS_INVOKE_FRE,
-                            getKey(oauthLimit.getResource(), oauthLimit.getMethod(), oauthLimit.getLevel().name()),
+                            getKey(oauthLimit.getResource(), oauthLimit.getMethod(), oauthLimit.getLevel()),
                             oauthLimit.getLimitCount() + "", -1);
                     redisClient.put(RedisMark.REDIS_INVOKE_FRE_UNIT,
-                            getKey(oauthLimit.getResource(), oauthLimit.getMethod(), oauthLimit.getLevel().name()), oauthLimit
+                            getKey(oauthLimit.getResource(), oauthLimit.getMethod(), oauthLimit.getLevel()), oauthLimit
                                     .getLimitTime().name(), -1);
                 }
             }
@@ -139,7 +139,20 @@ public class InvokeTimesData {
     }
 
     /* 更改操作 */
-    
-    
-    
+    public void put(OauthLimit oauthLimit) {
+        redisClient.put(RedisMark.REDIS_INVOKE_FRE,
+                getKey(oauthLimit.getResource(), oauthLimit.getMethod(), oauthLimit.getLevel()), oauthLimit.getLimitCount() + "",
+                -1);
+        redisClient.put(RedisMark.REDIS_INVOKE_FRE_UNIT,
+                getKey(oauthLimit.getResource(), oauthLimit.getMethod(), oauthLimit.getLevel()),
+                oauthLimit.getLimitTime().name(), -1);
+    }
+
+    public void del(OauthLimit oauthLimit) {
+        redisClient.del(RedisMark.REDIS_INVOKE_FRE,
+                getKey(oauthLimit.getResource(), oauthLimit.getMethod(), oauthLimit.getLevel()));
+        redisClient.del(RedisMark.REDIS_INVOKE_FRE_UNIT,
+                getKey(oauthLimit.getResource(), oauthLimit.getMethod(), oauthLimit.getLevel()));
+    }
+
 }

@@ -18,7 +18,7 @@ import com.yunhou.openapi.dao.dataRedis.TokenData;
 
 /**
  * <pre>
- * 功能说明：
+ * 功能说明：令牌管理
  * </pre>
  * 
  * @author 陈雄华
