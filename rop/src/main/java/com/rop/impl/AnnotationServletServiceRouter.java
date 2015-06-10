@@ -447,15 +447,14 @@ public class AnnotationServletServiceRouter implements ServiceRouter {
                 if (mainError != null) {
                     ropRequestContext.setRopResponse(new ErrorResponse(mainError));
                 } else {
-
                     // 绑定业务数据（第二阶段绑定）
                     ropRequest = requestContextBuilder.buildRopRequest(ropRequestContext);
-
                     // 进行其它检查业务数据合法性，业务安全等
                     mainError = securityManager.validateOther(ropRequestContext);
                     if (mainError != null) {
                         ropRequestContext.setRopResponse(new ErrorResponse(mainError));
                     } else {
+                        //服务调用前监听
                         firePreDoServiceEvent(ropRequestContext);
 
                         // 服务处理前拦截

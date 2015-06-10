@@ -27,6 +27,7 @@ import com.rop.impl.SimpleRopRequestContext;
 import com.rop.request.UploadFileUtils;
 import com.rop.session.SessionManager;
 import com.rop.utils.RopUtils;
+import com.sun.xml.internal.ws.api.client.ServiceInterceptor;
 
 /**
  * @author 陈雄华
@@ -39,6 +40,8 @@ public class DefaultSecurityManager implements SecurityManager {
     protected ServiceAccessController serviceAccessController = new DefaultServiceAccessController();
 
     protected AppSecretManager appSecretManager = new FileBaseAppSecretManager();
+
+    protected ServiceInterceptor serviceInterceptor;
 
     protected SessionManager sessionManager;
 
@@ -452,5 +455,9 @@ public class DefaultSecurityManager implements SecurityManager {
             }
         }
         return mainError;
+    }
+
+    public void setServiceInterceptor(ServiceInterceptor serviceInterceptor) {
+        this.serviceInterceptor = serviceInterceptor;
     }
 }

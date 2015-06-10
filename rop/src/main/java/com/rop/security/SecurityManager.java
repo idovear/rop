@@ -32,7 +32,7 @@ public interface SecurityManager {
      * @return
      */
     MainError validateOther(RopRequestContext ropRequestContext);
-
+    
     /**
      * 获取安全管理器
      *
